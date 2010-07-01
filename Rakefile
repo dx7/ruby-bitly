@@ -5,11 +5,11 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "ruby-bitly"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{bit.ly ruby client}
+    gem.description = %Q{bit.ly ruby client}
     gem.email = "rafaeldx7@gmail.com"
     gem.homepage = "http://github.com/rafaeldx7/ruby-bitly"
-    gem.authors = ["Rafael"]
+    gem.authors = ["rafaeldx7"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
