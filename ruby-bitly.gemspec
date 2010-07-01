@@ -14,15 +14,16 @@ Gem::Specification.new do |s|
   s.email = %q{rafaeldx7@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
+     "README",
      "README.rdoc"
   ]
   s.files = [
-    ".document",
-     ".gitignore",
-     "LICENSE",
+    "LICENSE",
+     "README",
      "README.rdoc",
      "Rakefile",
      "lib/ruby-bitly.rb",
+     "ruby-bitly.gemspec",
      "spec/ruby-bitly_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb"
