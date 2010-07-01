@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "bin/bitly",
      "lib/ruby-bitly.rb",
      "ruby-bitly.gemspec",
      "spec/ruby-bitly_spec.rb",
