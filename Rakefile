@@ -10,7 +10,7 @@ begin
     gem.email = "rafaeldx7@gmail.com"
     gem.homepage = "http://github.com/rafaeldx7/ruby-bitly"
     gem.authors = ["rafaeldx7"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_development_dependency "rest-client", "1.5.1"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
