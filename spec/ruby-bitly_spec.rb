@@ -7,7 +7,7 @@ describe "RubyBitly" do
   end
   
   it "Shorten log url staticaly" do
-    response = Bitly.shorten("http://google.com")
+    response = Bitly.post_shorten("http://google.com")
 
     response["status_code"].should == 200
     response["status_txt"].should == "OK"
@@ -31,7 +31,7 @@ describe "RubyBitly" do
   end
   
   it "Expand short url to long url staticaly" do
-    Bitly.expand("http://bit.ly/bcvNe5").should == { "data"=> 
+    Bitly.post_expand("http://bit.ly/bcvNe5").should == { "data"=> 
                                                       { "expand" => [ 
                                                         { "long_url" => "http://google.com",
                                                           "short_url" => "http://bit.ly/bcvNe5",
@@ -43,7 +43,7 @@ describe "RubyBitly" do
                                                       }
   end
   
-  it "Expand short url to long url" do
+  it "Expand short url to long url with object" do
     url = Bitly.new
 
     url.short_url = "http://bit.ly/bcvNe5"
