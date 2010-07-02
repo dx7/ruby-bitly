@@ -75,6 +75,7 @@ class Bitly
   end
   
   def Bitly.post_expand(new_short_url)
+    Bitly.load_personal_data
     response = RestClient.post(REST_API_URL + ACTION_PATH[:expand], { :shortURL => new_short_url, :login => @@login, :apiKey => @@key })
     JSON.parse(response)
   end
