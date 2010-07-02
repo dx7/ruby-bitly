@@ -18,7 +18,8 @@ describe "RubyBitly" do
   end
   
   it "Shorten log url OO" do
-    url = Bitly.new("http://google.com")
+    url = Bitly.new
+    url.long_url = "http://google.com"
     url.shorten.should match /^http:\/\/bit\.ly\/[A-Za-z0-9]*/
     
     url.status_code.should == 200
@@ -27,5 +28,31 @@ describe "RubyBitly" do
     url.global_hash == "zzzzzzz"
     url.hash.length.should_not == 0
     url.bitly.should match /^http:\/\/bit\.ly\/[A-Za-z0-9]*/
+  end
+  
+  it "Expand short url to long url staticaly" do
+    Bitly.expand("http://bit.ly/bcvNe5").should == { "data"=> 
+                                                      { "expand" => [ 
+                                                        { "long_url" => "http://google.com",
+                                                          "short_url" => "http://bit.ly/bcvNe5",
+                                                          "global_hash" => "zzzzzzz", 
+                                                          "user_hash" => "bcvNe5"}]
+                                                        }, 
+                                                        "status_txt" => "OK", 
+                                                        "status_code" => 200
+                                                      }
+  end
+  
+  it "Expand short url to long url" do
+    url = Bitly.new
+
+    url.short_url = "http://bit.ly/bcvNe5"
+    url.expand.should == "http://google.com"
+    url.long_url.should == "http://google.com"
+    url.short_url.should == "http://bit.ly/bcvNe5"
+    url.global_hash == "zzzzzzz"
+    url.user_hash == "bcvNe5"
+    url.status_code.should == 200
+    url.status_txt.should == "OK"
   end
 end
