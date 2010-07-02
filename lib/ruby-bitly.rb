@@ -24,7 +24,7 @@ class Bitly
   
   def shorten
     unless @response
-      @response = Bitly.shorten(@long_url)
+      @response = Bitly.post_shorten(@long_url)
     
       @status_code = @response["status_code"]
       @status_txt = @response["status_txt"]
@@ -38,7 +38,7 @@ class Bitly
   end
   
   def expand
-    @response = Bitly.expand(@short_url)
+    @response = Bitly.post_expand(@short_url)
     @long_url = @response["data"]["expand"].first["long_url"]
     @global_hash = @response["data"]["expand"].first["global_hash"]
     @user_hash = @response["data"]["expand"].first["user_hash"]
@@ -48,13 +48,13 @@ class Bitly
     @long_url
   end
   
-  def Bitly.shorten(new_long_url)
+  def Bitly.post_shorten(new_long_url)
     Bitly.load_personal_data
     response = RestClient.post(REST_API_URL + ACTION_PATH[:shorten], { :longURL => new_long_url, :login => @@login, :apiKey => @@key })
     JSON.parse(response)
   end
   
-  def Bitly.expand(new_short_url)
+  def Bitly.post_expand(new_short_url)
     response = RestClient.post(REST_API_URL + ACTION_PATH[:expand], { :shortURL => new_short_url, :login => @@login, :apiKey => @@key })
     JSON.parse(response)
   end
