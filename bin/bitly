@@ -4,5 +4,12 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'ruby-bitly'
 
-url = Bitly.new ARGV[0]
-puts url.bitly
+if ARGV[0] == "s"
+  result = Bitly.shorten(ARGV[1]).short_url
+elsif ARGV[0] == "e"
+  result = Bitly.expand(ARGV[1]).long_url
+else
+  result = "Invalid Option!\n" << "Use:\n" << "\tbitly s <url> to shorten url.\n" << "\tbitly e <url> to expand url.\n\n"
+end
+
+puts result
