@@ -10,7 +10,7 @@ describe "RubyBitly" do
   
   it "Shorten log url staticaly and return a hash" do
     response = Bitly.post_shorten "http://google.com"
-
+  
     response["status_code"].should == 200
     response["status_txt"].should == "OK"
     response["data"]["new_hash"].should == 0
@@ -49,7 +49,7 @@ describe "RubyBitly" do
     url = Bitly.new
     url.short_url = "http://bit.ly/bcvNe5"
     url.expand
-
+  
     url.long_url.should == "http://google.com"
     url.short_url.should == "http://bit.ly/bcvNe5"
     url.global_hash.should == "zzzzzzz"
@@ -68,7 +68,7 @@ describe "RubyBitly" do
   it "Shorten url and return an object" do
     url = Bitly.shorten("http://google.com")
     url.should be_an_instance_of(Bitly)
-
+  
     url.status_code.should == 200
     url.status_txt.should == "OK"
     url.long_url.should == "http://google.com"
@@ -111,11 +111,11 @@ describe "RubyBitly" do
     url.long_url = "http://xlii.com.br"
     url.long_url.should == "http://google.com"
   end
-
+  
   it "Expand url and return an object" do
     url = Bitly.expand "http://bit.ly/bcvNe5"
     url.should be_an_instance_of(Bitly)
-
+  
     url.long_url.should == "http://google.com"
     url.short_url.should == "http://bit.ly/bcvNe5"
     url.global_hash.should == "zzzzzzz"
