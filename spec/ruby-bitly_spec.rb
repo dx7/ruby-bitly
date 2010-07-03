@@ -93,6 +93,11 @@ describe "RubyBitly" do
     url.read_only?.should be true
   end
   
+  it "Stats object should be read only" do
+    url = Bitly.clicks "http://bit.ly/bcvNe5"
+    url.read_only?.should be true
+  end
+  
   it "Attribute long_url should be updatable when object is not read only" do
     url = Bitly.new
     url.long_url = "http://google.com"
@@ -124,6 +129,19 @@ describe "RubyBitly" do
     url.status_txt.should == "OK"
   end
   
+  it "Get clicks and return an object" do
+    url = Bitly.clicks "http://bit.ly/xlii42"
+    url.should be_an_instance_of(Bitly)
+  
+    url.status_code.should == 200
+    url.status_txt.should == "OK"
+    url.global_clicks.should be_an_instance_of Fixnum
+    url.user_clicks.should be_an_instance_of Fixnum
+    url.short_url.should == "http://bit.ly/xlii42"
+    url.global_hash == "cunZEP"
+    url.user_hash.should == "cT1Izu"
+  end
+  
   it "Attribute short_url should be updated when object is not read only" do
     url = Bitly.new
     url.short_url = "http://bit.ly/bcvNe5"
@@ -141,5 +159,31 @@ describe "RubyBitly" do
     
     url.short_url = "http://bit.ly/bcvNe5"
     url.short_url.should == "http://bit.ly/xlii42"
+  end
+  
+  it "Get clicks by short_url" do
+    bitly = Bitly.get_clicks("http://bit.ly/xlii42")
+    
+    bitly["status_txt"].should == "OK"
+    bitly["status_code"].should == 200
+    bitly["data"]["clicks"].first["global_clicks"].should be_an_instance_of Fixnum
+    bitly["data"]["clicks"].first["user_clicks"].should be_an_instance_of Fixnum
+    bitly["data"]["clicks"].first["short_url"].should == "http://bit.ly/xlii42"
+    bitly["data"]["clicks"].first["global_hash"].should == "cunZEP"
+    bitly["data"]["clicks"].first["user_hash"].should == "cT1Izu"
+  end
+  
+  it "Clicks with an object" do
+    url = Bitly.new
+    url.short_url = "http://bit.ly/xlii42"
+    url.clicks
+    
+    url.status_code.should == 200
+    url.status_txt.should == "OK"
+    url.global_clicks.should be_an_instance_of Fixnum
+    url.user_clicks.should be_an_instance_of Fixnum
+    url.short_url.should == "http://bit.ly/xlii42"
+    url.global_hash == "cunZEP"
+    url.user_hash.should == "cT1Izu"
   end
 end
