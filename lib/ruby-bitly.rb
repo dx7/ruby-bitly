@@ -82,22 +82,31 @@ class Bitly
     read_only_now!
   end
   
-  def Bitly.post_shorten(new_long_url)
+  def Bitly.request
     Bitly.load_personal_data
-    response = RestClient.post(REST_API_URL + ACTION_PATH[:shorten], { :longURL => new_long_url, :login => @@login, :apiKey => @@key })
+    
+    response = yield
+    
     JSON.parse(response)
+  end
+  
+  def Bitly.post_shorten(new_long_url)
+    Bitly.request do
+      RestClient.post(REST_API_URL + ACTION_PATH[:shorten], { :longURL => new_long_url, :login => @@login, :apiKey => @@key })
+    end
   end
   
   def Bitly.post_expand(new_short_url)
-    Bitly.load_personal_data
-    response = RestClient.post(REST_API_URL + ACTION_PATH[:expand], { :shortURL => new_short_url, :login => @@login, :apiKey => @@key })
-    JSON.parse(response)
+    Bitly.request do
+      RestClient.post(REST_API_URL + ACTION_PATH[:expand], { :shortURL => new_short_url, :login => @@login, :apiKey => @@key })
+    end
   end
   
   def Bitly.get_clicks(new_short_url)
-    Bitly.load_personal_data
-    response = RestClient.get("#{REST_API_URL}#{ACTION_PATH[:clicks]}?login=#{@@login}&apiKey=#{@@key}&shortUrl=#{new_short_url}")
-    JSON.parse(response)
+    Bitly.request do
+      RestClient.get("#{REST_API_URL}#{ACTION_PATH[:clicks]}?login=#{@@login}&apiKey=#{@@key}&shortUrl=#{new_short_url}")
+      # RestClient.get(REST_API_URL + ACTION_PATH[:clicks], { :login => @@login, :apiKey => @@key, :shortUrl => new_short_url })
+    end
   end
     
   def Bitly.shorten(new_long_url)
