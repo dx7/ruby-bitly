@@ -8,8 +8,12 @@ if ARGV[0] == "s"
   result = Bitly.shorten(ARGV[1]).short_url
 elsif ARGV[0] == "e"
   result = Bitly.expand(ARGV[1]).long_url
+elsif ARGV[0] == "--user-clicks"
+  result = Bitly.clicks(ARGV[1]).user_clicks.to_s
+elsif ARGV[0] == "--global-clicks"
+  result = Bitly.clicks(ARGV[1]).global_clicks.to_s
 else
-  result = "Invalid Option!\n" << "Use:\n" << "\tbitly s <url> to shorten url.\n" << "\tbitly e <url> to expand url.\n\n"
+  result = "Invalid Option!\n" << "Use:\n" << "\tbitly s <url> to shorten url.\n" << "\tbitly e <url> to expand url.\n" << "\tbitly --user-clicks <url>\n" << "\tbitly --global-clicks <url>\n" << "\n"
 end
 
 puts result
