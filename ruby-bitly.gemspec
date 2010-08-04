@@ -16,14 +16,12 @@ Gem::Specification.new do |s|
   s.executables = ["bitly"]
   s.extra_rdoc_files = [
     "LICENSE",
-     "README",
      "README.rdoc"
   ]
   s.files = [
     ".document",
      ".gitignore",
      "LICENSE",
-     "README",
      "README.rdoc",
      "Rakefile",
      "VERSION",
