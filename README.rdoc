@@ -1,34 +1,34 @@
 = This app is a simple bitly ruby client.
 
- == Examples
-     bitly -s http://long-url.com.whatever/
-     bitly -e http://bit.ly/whatever
-     bitly --user-clicks http://bit.ly/whatever
-     bitly --global-clicks http://bit.ly/whatever
+== Examples
+    bitly -s http://rafael.xlii.com.br
+    bitly -e http://bit.ly/XLII42
+    bitly --user-clicks http://bit.ly/XLII42
+    bitly --global-clicks http://bit.ly/XLII42
 
-   Other examples:
-     bitly -q -s http://long-url.com.whatever/
-     bitly --verbose -e http://bit.ly/whatever
+  Other examples:
+    bitly -q -s http://rafael.xlii.com.br
+    bitly --verbose -e http://bit.ly/XLII42
 
- == Usage 
-     bitly [options] url
+== Usage 
+    bitly [options] url
 
-     For help: bitly -h
+    For help: bitly -h
 
- == Options
-     -s, --shorten        Shorten a long url
-     -e, --expand         Expand a short bitly url
-     -u, --user-clicks    Show user clicks from the short bitly url
-     -g, --global-clicks  Show global clicks from the short bitly url
-                          
-     -h, --help           Displays help message, then exit
-     -v, --version        Display the version, then exit
-     -q, --quiet          Output as little as possible, overrides verbose
-     -V, --verbose        Verbose output
+== Options
+    -s, --shorten        Shorten a long url
+    -e, --expand         Expand a short bitly url
+    -u, --user-clicks    Show user clicks from the short bitly url
+    -g, --global-clicks  Show global clicks from the short bitly url
+                         
+    -h, --help           Displays help message, then exit
+    -v, --version        Display the version, then exit
+    -q, --quiet          Output as little as possible, overrides verbose
+    -V, --verbose        Verbose output
 
- == Author
-     rafaeldx7 ~ rafaeldx7(a)gmail.com
+== Author
+    rafaeldx7 ~ rafaeldx7(a)gmail.com
 
- == Copyright
-     Copyright (c) 2010 rafaeldx7. Licensed under the MIT License:
-     http://www.opensource.org/licenses/mit-license.php
+== Copyright
+    Copyright (c) 2010 rafaeldx7. Licensed under the MIT License:
+    http://www.opensource.org/licenses/mit-license.php
