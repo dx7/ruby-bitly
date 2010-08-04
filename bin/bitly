@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby 
-#     This app is a simple bitly ruby client.
+# = This app is a simple bitly ruby client.
 #
 # == Examples
 #     bitly -s http://rafael.xlii.com.br
@@ -8,7 +8,7 @@
 #     bitly --global-clicks http://bit.ly/XLII42
 #
 #   Other examples:
-#     bitly -q -s http://long-url.com.whatever/
+#     bitly -q -s http://rafael.xlii.com.br
 #     bitly --verbose -e http://bit.ly/XLII42
 #
 # == Usage 
