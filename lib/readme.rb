@@ -29,7 +29,7 @@ module Readme
   # Display usage
   def Readme.usage_no_exit(*args)
     # main_program_file = caller[-1].sub(/:\d+$/, '') # ruby-bitly
-    main_program_file = "README.rdoc"
+    main_program_file = File.join(File.dirname(__FILE__), '..', 'README.rdoc')
     
     comment = File.open(main_program_file) do |file|
       find_comment(file)
