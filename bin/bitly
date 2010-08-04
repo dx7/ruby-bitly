@@ -1,19 +1,146 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby 
+#     This app is a simple bitly ruby client.
+#
+# == Examples
+#     bitly -s http://long-url.com.whatever/
+#     bitly -e http://bit.ly/whatever
+#     bitly --user-clicks http://bit.ly/whatever
+#     bitly --global-clicks http://bit.ly/whatever
+#
+#   Other examples:
+#     bitly -q -s http://long-url.com.whatever/
+#     bitly --verbose -e http://bit.ly/whatever
+#
+# == Usage 
+#     bitly [options] url
+#
+#     For help: bitly -h
+#
+# == Options
+#     -s, --shorten        Shorten a long url
+#     -e, --expand         Expand a short bitly url
+#     -u, --user-clicks    Show user clicks from the short bitly url
+#     -g, --global-clicks  Show global clicks from the short bitly url
+#                          
+#     -h, --help           Displays help message, then exit
+#     -v, --version        Display the version, then exit
+#     -q, --quiet          Output as little as possible, overrides verbose
+#     -V, --verbose        Verbose output
+#
+# == Author
+#     rafaeldx7 ~ rafaeldx7(a)gmail.com
+#
+# == Copyright
+#     Copyright (c) 2010 rafaeldx7. Licensed under the MIT License:
+#     http://www.opensource.org/licenses/mit-license.php
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'ruby-bitly'
+require 'optparse' 
+require 'rdoc/usage'
+require 'ostruct'
+require 'date'
 
-if ARGV[0] == "s"
-  result = Bitly.shorten(ARGV[1]).short_url
-elsif ARGV[0] == "e"
-  result = Bitly.expand(ARGV[1]).long_url
-elsif ARGV[0] == "--user-clicks"
-  result = Bitly.clicks(ARGV[1]).user_clicks.to_s
-elsif ARGV[0] == "--global-clicks"
-  result = Bitly.clicks(ARGV[1]).global_clicks.to_s
-else
-  result = "Invalid Option!\n" << "Use:\n" << "\tbitly s <url> to shorten url.\n" << "\tbitly e <url> to expand url.\n" << "\tbitly --user-clicks <url>\n" << "\tbitly --global-clicks <url>\n" << "\n"
+class App
+  VERSION = File.read(File.join(File.dirname(__FILE__), '..', 'VERSION'))
+  
+  attr_reader :options
+
+  def initialize(arguments, stdin)
+    @arguments = arguments
+    @stdin = stdin
+    
+    # Set defaults
+    @options = OpenStruct.new
+    @options.verbose = false
+    @options.quiet = false
+  end
+
+  # Parse options, check arguments, then process the command
+  def run
+        
+    if parsed_options? && arguments_valid? 
+      
+      puts "Start at #{DateTime.now}\n\n" if @options.verbose
+      
+      output_options if @options.verbose # [Optional]
+            
+      process_arguments            
+      puts process_command.to_s
+      
+      puts "\nFinished at #{DateTime.now}" if @options.verbose
+      
+    else
+      output_usage
+    end
+    
+  end
+  
+  protected
+  
+    def parsed_options?
+      
+      # Specify options
+      opts = OptionParser.new 
+      
+      opts.on('-s', '--shorten')       { @options.shorten = true }
+      opts.on('-e', '--expand')        { @options.expand = true }
+      opts.on('-u', '--user-clicks')   { @options.user_clicks = true }
+      opts.on('-g', '--global-clicks') { @options.global_clicks = true }
+      
+      opts.on('-v', '--version')    { output_version ; exit 0 }
+      opts.on('-h', '--help')       { output_help }
+      opts.on('-V', '--verbose')    { @options.verbose = true }
+      opts.on('-q', '--quiet')      { @options.quiet = true }
+
+      opts.parse!(@arguments) rescue return false
+
+      process_options
+      true      
+    end
+
+    # Performs post-parse processing on options
+    def process_options
+      @options.verbose = false if @options.quiet
+    end
+    
+    def output_options
+      puts "Options:\n"
+      
+      @options.marshal_dump.each do |name, val|        
+        puts "  #{name} = #{val}"
+      end
+    end
+
+    # True if required arguments were provided
+    def arguments_valid?
+      @arguments.length == 1 and (@options.shorten or @options.expand or @options.user_clicks or @options.global_clicks)
+    end
+    
+    # Setup the arguments
+    def process_arguments
+    end
+    
+    def output_help
+      RDoc::usage() #exits app
+    end
+    
+    def output_usage
+      RDoc::usage('usage') # gets usage from comments above
+    end
+    
+    def output_version
+      puts "#{File.basename(__FILE__)} version #{VERSION}"
+    end
+    
+    def process_command
+      return Bitly.shorten(@arguments[0]).short_url if @options.shorten
+      return Bitly.expand(@arguments[0]).long_url if @options.expand
+      return Bitly.clicks(@arguments[0]).user_clicks.to_s if @options.user_clicks
+      return Bitly.clicks(@arguments[0]).global_clicks.to_s if @options.global_clicks
+    end
 end
 
-puts result
+app = App.new(ARGV, STDIN)
+app.run

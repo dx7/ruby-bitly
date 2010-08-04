@@ -5,12 +5,15 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "ruby-bitly"
-    gem.summary = %Q{bit.ly ruby client}
-    gem.description = %Q{bit.ly ruby client}
+    gem.summary = %Q{This is a simple bit.ly ruby client}
+    gem.description = %Q{This is a simple bit.ly ruby client}
     gem.email = "rafaeldx7@gmail.com"
     gem.homepage = "http://github.com/rafaeldx7/ruby-bitly"
     gem.authors = ["rafaeldx7"]
-    gem.add_development_dependency "rest-client", "1.5.1"
+    gem.add_runtime_dependency "rest-client", "1.5.1"
+    gem.add_runtime_dependency "json_pure", "1.4.3"
+    gem.add_development_dependency "rake", "0.8.7"
+    gem.add_development_dependency "rspec", "1.3.0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
