@@ -1,4 +1,4 @@
-= This app is a simple bitly ruby client.
+= A simple bitly ruby client.
 
 == Examples
     bitly -s http://rafael.xlii.com.br
