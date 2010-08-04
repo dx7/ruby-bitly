@@ -2,14 +2,14 @@
 #     This app is a simple bitly ruby client.
 #
 # == Examples
-#     bitly -s http://long-url.com.whatever/
-#     bitly -e http://bit.ly/whatever
-#     bitly --user-clicks http://bit.ly/whatever
-#     bitly --global-clicks http://bit.ly/whatever
+#     bitly -s http://rafael.xlii.com.br
+#     bitly -e http://bit.ly/XLII42
+#     bitly --user-clicks http://bit.ly/XLII42
+#     bitly --global-clicks http://bit.ly/XLII42
 #
 #   Other examples:
 #     bitly -q -s http://long-url.com.whatever/
-#     bitly --verbose -e http://bit.ly/whatever
+#     bitly --verbose -e http://bit.ly/XLII42
 #
 # == Usage 
 #     bitly [options] url
