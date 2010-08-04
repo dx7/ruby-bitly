@@ -109,7 +109,5 @@ class App
     end
 end
 
-if __FILE__ == $0
-  app = App.new(ARGV, STDIN)
-  app.run
-end
+app = App.new(ARGV, STDIN)
+app.run
