@@ -10,7 +10,7 @@ begin
     gem.email = "rafaeldx7@gmail.com"
     gem.homepage = "http://github.com/rafaeldx7/ruby-bitly"
     gem.authors = ["rafaeldx7"]
-    gem.add_runtime_dependency "rest-client", "1.5.1"
+    gem.add_runtime_dependency "rest-client", "1.6.0"
     gem.add_runtime_dependency "json_pure", "1.4.3"
     gem.add_development_dependency "rake", "0.8.7"
     gem.add_development_dependency "rspec", "1.3.0"
