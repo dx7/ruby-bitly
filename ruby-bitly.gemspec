@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ruby-bitly}
-  s.version = "0.0.6"
+  s.version = "0.0.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["rafaeldx7"]
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "bin/bitly",
+     "lib/readme.rb",
      "lib/ruby-bitly.rb",
      "ruby-bitly.gemspec",
      "spec/ruby-bitly_spec.rb",
