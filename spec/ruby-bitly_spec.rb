@@ -2,188 +2,57 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "RubyBitly" do
   
-  it "Load personal data from ~/.bitly" do
-    file_data = Bitly.load_personal_data
-    file_data["key"].should_not be_empty
-    file_data["login"].should_not be_empty
+  before(:all) do
+    @login = ENV['BITLY_LOGIN']
+    @key = ENV['BITLY_KEY']
   end
-  
-  it "Shorten log url staticaly and return a hash" do
-    response = Bitly.post_shorten "http://google.com"
-  
-    response["status_code"].should == 200
-    response["status_txt"].should == "OK"
-    response["data"]["new_hash"].should == 0
-    response["data"]["global_hash"].should == "zzzzzzz"
-    response["data"]["hash"].length.should_not == 0
-    response["data"]["url"].should match /^http:\/\/bit\.ly\/[A-Za-z0-9]*/
-  end
-  
-  it "Shorten log url with an object" do
-    url = Bitly.new
-    url.long_url = "http://google.com"
-    url.shorten
+
+  it "Shorten long url" do
+    response = Bitly.shorten("http://google.com", @login, @key)
     
-    url.status_code.should == 200
-    url.status_txt.should == "OK"
-    url.new_hash.should == 0
-    url.global_hash == "zzzzzzz"
-    url.hash.length.should_not == 0
-    url.short_url.should match /^http:\/\/bit\.ly\/[A-Za-z0-9]*/
+    response.status_code.should == 200
+    response.status_txt.should == "OK"
+    response.new_hash.should == 0
+    response.global_hash.should == "zzzzzzz"
+    response.hash_path.length.should_not == 0
+    response.url.should match /^http:\/\/bit\.ly\/[A-Za-z0-9]*/
   end
   
-  it "Expand short url to long url staticaly and return a hash" do
-    Bitly.post_expand("http://bit.ly/bcvNe5").should == { "data"=> 
-                                                            { "expand" => [ 
-                                                              { "long_url" => "http://google.com",
-                                                                "short_url" => "http://bit.ly/bcvNe5",
-                                                                "global_hash" => "zzzzzzz", 
-                                                                "user_hash" => "bcvNe5"}]
-                                                              }, 
-                                                          "status_txt" => "OK", 
-                                                          "status_code" => 200
-                                                        }
-  end
-  
-  it "Expand short url to long url with an object" do
-    url = Bitly.new
-    url.short_url = "http://bit.ly/bcvNe5"
-    url.expand
-  
-    url.long_url.should == "http://google.com"
-    url.short_url.should == "http://bit.ly/bcvNe5"
-    url.global_hash.should == "zzzzzzz"
-    url.user_hash.should == "bcvNe5"
-    url.status_code.should == 200
-    url.status_txt.should == "OK"
-  end
-  
-  it "Update object as read only" do
-    url = Bitly.new
-    url.read_only?.should be false
-    url.read_only_now!
-    url.read_only?.should be true
-  end
-  
-  it "Shorten url and return an object" do
-    url = Bitly.shorten("http://google.com")
-    url.should be_an_instance_of(Bitly)
-  
-    url.status_code.should == 200
-    url.status_txt.should == "OK"
-    url.long_url.should == "http://google.com"
-    url.new_hash.should == 0
-    url.global_hash.should == "zzzzzzz"
-    url.hash.should match /^[A-Za-z0-9]*$/
-    url.short_url.should match /^http:\/\/bit\.ly\/[A-Za-z0-9]*/
-  end
-  
-  it "New bitly object should be not read only" do
-    url = Bitly.new
-    url.read_only?.should be false
-  end
-  
-  it "Shortened object should be read only" do
-    url = Bitly.shorten "http://google.com"
-    url.read_only?.should be true
-  end
-  
-  it "Expanded object should be read only" do
-    url = Bitly.expand "http://bit.ly/bcvNe5"
-    url.read_only?.should be true
-  end
-  
-  it "Stats object should be read only" do
-    url = Bitly.clicks "http://bit.ly/bcvNe5"
-    url.read_only?.should be true
-  end
-  
-  it "Attribute long_url should be updatable when object is not read only" do
-    url = Bitly.new
-    url.long_url = "http://google.com"
-    url.long_url.should == "http://google.com"
+  it "Shorten bitly url" do
+    response = Bitly.shorten("http://bit.ly/bcvNe5", @login, @key)
     
-    url.long_url = "http://xlii.com.br"
-    url.long_url.should == "http://xlii.com.br"
+    response.status_code.should == 500
   end
-  
-  it "Attribute long_url should not be updatable when object is read only" do
-    url = Bitly.new
-    url.long_url = "http://google.com"
-    url.long_url.should == "http://google.com"
-    url.read_only_now!
+
+  it "Expand a short url to it long url" do
+    response = Bitly.expand("http://bit.ly/bcvNe5", @login, @key)
     
-    url.long_url = "http://xlii.com.br"
-    url.long_url.should == "http://google.com"
+    response.status_code.should == 200
+    response.status_txt.should == "OK"
+    response.long_url.should == "http://google.com"
+    response.short_url.should == "http://bit.ly/bcvNe5"
+    response.user_hash.should == "bcvNe5"
   end
-  
-  it "Expand url and return an object" do
-    url = Bitly.expand "http://bit.ly/bcvNe5"
-    url.should be_an_instance_of(Bitly)
-  
-    url.long_url.should == "http://google.com"
-    url.short_url.should == "http://bit.ly/bcvNe5"
-    url.global_hash.should == "zzzzzzz"
-    url.user_hash.should == "bcvNe5"
-    url.status_code.should == 200
-    url.status_txt.should == "OK"
-  end
-  
-  it "Get clicks and return an object" do
-    url = Bitly.clicks "http://bit.ly/xlii42"
-    url.should be_an_instance_of(Bitly)
-  
-    url.status_code.should == 200
-    url.status_txt.should == "OK"
-    url.global_clicks.should be_an_instance_of Fixnum
-    url.user_clicks.should be_an_instance_of Fixnum
-    url.short_url.should == "http://bit.ly/xlii42"
-    url.global_hash == "cunZEP"
-    url.user_hash.should == "cT1Izu"
-  end
-  
-  it "Attribute short_url should be updated when object is not read only" do
-    url = Bitly.new
-    url.short_url = "http://bit.ly/bcvNe5"
-    url.short_url.should == "http://bit.ly/bcvNe5"
+
+  it "Expand a long url should result an error" do
+    response = Bitly.expand("http://google.com", @login, @key)
     
-    url.short_url = "http://bit.ly/xlii42"
-    url.short_url.should == "http://bit.ly/xlii42"
+    response.status_code.should == 200
+    response.status_txt.should == "OK"
+    response.long_url.should == "NOT_FOUND"
+    response.short_url.should == "http://google.com"
   end
-  
-  it "Attribute short_url should not be updated when object is read only" do
-    url = Bitly.new
-    url.short_url = "http://bit.ly/xlii42"
-    url.short_url.should == "http://bit.ly/xlii42"
-    url.read_only_now!
-    
-    url.short_url = "http://bit.ly/bcvNe5"
-    url.short_url.should == "http://bit.ly/xlii42"
-  end
+
   
   it "Get clicks by short_url" do
-    bitly = Bitly.get_clicks("http://bit.ly/xlii42")
+    bitly = Bitly.get_clicks("http://bit.ly/xlii42", @login, @key)
     
-    bitly["status_txt"].should == "OK"
-    bitly["status_code"].should == 200
-    bitly["data"]["clicks"].first["global_clicks"].should be_an_instance_of Fixnum
-    bitly["data"]["clicks"].first["user_clicks"].should be_an_instance_of Fixnum
-    bitly["data"]["clicks"].first["short_url"].should == "http://bit.ly/xlii42"
-    bitly["data"]["clicks"].first["global_hash"].should == "cunZEP"
-    bitly["data"]["clicks"].first["user_hash"].should == "cT1Izu"
-  end
-  
-  it "Clicks with an object" do
-    url = Bitly.new
-    url.short_url = "http://bit.ly/xlii42"
-    url.clicks
-    
-    url.status_code.should == 200
-    url.status_txt.should == "OK"
-    url.global_clicks.should be_an_instance_of Fixnum
-    url.user_clicks.should be_an_instance_of Fixnum
-    url.short_url.should == "http://bit.ly/xlii42"
-    url.global_hash == "cunZEP"
-    url.user_hash.should == "cT1Izu"
+    bitly.status_txt.should == "OK"
+    bitly.status_code.should == 200
+    bitly.global_clicks.should be_an_instance_of Fixnum
+    bitly.user_clicks.should be_an_instance_of Fixnum
+    bitly.short_url.should == "http://bit.ly/xlii42"
+    bitly.global_hash.should == "cunZEP"
+    bitly.user_hash.should == "cT1Izu"
   end
 end

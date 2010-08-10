@@ -11,81 +11,94 @@ require 'date'
 
 class App
   VERSION = File.read(File.join(File.dirname(__FILE__), '..', 'VERSION'))
-  
-  attr_reader :options
+  ACCOUNT_FILE_PATH = "#{ENV['HOME']}/.bitly"
 
-  def initialize(arguments, stdin)
-    @arguments = arguments
+  attr_accessor :arguments, :options, :message
+
+  def initialize(arguments, stdin = nil)
+    self.options = OpenStruct.new
+    self.arguments = arguments
     @stdin = stdin
-    
-    # Set defaults
-    @options = OpenStruct.new
-    @options.verbose = false
-    @options.quiet = false
   end
 
-  # Parse options, check arguments, then process the command
   def run
-        
-    if parsed_options? && arguments_valid? 
-      
-      puts "Start at #{DateTime.now}\n\n" if @options.verbose
-      
-      output_options if @options.verbose # [Optional]
-            
-      process_arguments            
-      puts process_command.to_s
-      
-      puts "\nFinished at #{DateTime.now}" if @options.verbose
-      
-    else
-      output_usage
-    end
+    process_options
     
+    if arguments_valid? 
+      output_options if options.verbose
+            
+      process_arguments
+      puts "#{options.message} #{process_command}".strip
+    else
+      output_help
+    end
   end
   
   protected
   
-    def parsed_options?
+    def load_account_data
+      begin
+        account_data = YAML.load(File.read(ACCOUNT_FILE_PATH))
+      rescue
+        
+      end
+
+      if account_data
+        options.login = account_data["login"]
+        options.key = account_data["key"]
+      end
+    end
+    
+    def default_options
+      options.verbose = false
+      options.quiet = false
+    end
+    
+    def process_options
+      default_options
       
-      # Specify options
       opts = OptionParser.new 
       
-      opts.on('-s', '--shorten')       { @options.shorten = true }
-      opts.on('-e', '--expand')        { @options.expand = true }
-      opts.on('-u', '--user-clicks')   { @options.user_clicks = true }
-      opts.on('-g', '--global-clicks') { @options.global_clicks = true }
+      opts.on('-s', '--shorten')       { options.shorten = true; options.message = 'Short url:' }
+      opts.on('-e', '--expand')        { options.expand = true; options.message = 'Original url:' }
+      opts.on('-u', '--user-clicks')   { options.user_clicks = true; options.message = 'User clicks:' }
+      opts.on('-g', '--global-clicks') { options.global_clicks = true; options.message = 'Global clicks:' }
+      
+      opts.on('-l', '--login LOGIN')  { |login| options.login = login }
+      opts.on('-k', '--key KEY')      { |key| options.key = key }
       
       opts.on('-v', '--version')    { output_version ; exit 0 }
       opts.on('-h', '--help')       { output_help }
-      opts.on('-V', '--verbose')    { @options.verbose = true }
-      opts.on('-q', '--quiet')      { @options.quiet = true }
-
-      opts.parse!(@arguments) rescue return false
-
-      process_options
-      true      
-    end
-
-    # Performs post-parse processing on options
-    def process_options
-      @options.verbose = false if @options.quiet
+      opts.on('-V', '--verbose')    { options.verbose = true }
+      opts.on('-q', '--quiet')      { options.quiet = true; options.verbose = false;  options.message = '' }
+      
+      post_process_options
+      
+      opts.parse!(arguments) rescue return false
     end
     
+    def post_process_options
+      # Bitly API Login / Key
+      load_account_data unless options.login and options.key
+      
+      # Default option: --shorten
+      options.shorten = true unless options.expand or options.user_clicks or options.global_clicks
+    end
+
     def output_options
       puts "Options:\n"
       
-      @options.marshal_dump.each do |name, val|        
+      options.marshal_dump.each do |name, val|        
         puts "  #{name} = #{val}"
       end
+      
+      puts "  URL: #{arguments.first}\n"
     end
 
-    # True if required arguments were provided
     def arguments_valid?
-      @arguments.length == 1 and (@options.shorten or @options.expand or @options.user_clicks or @options.global_clicks)
+      arguments.length == 1
     end
     
-    # Setup the arguments
     def process_arguments
     end
     
@@ -93,21 +106,17 @@ class App
       Readme::usage() #exits app
     end
     
-    def output_usage
-      Readme::usage('usage') # gets usage from comments above
-    end
-    
     def output_version
-      puts "#{File.basename(__FILE__)} version #{VERSION}"
+      puts "bitly version #{VERSION.chomp} [gem ruby-bitly]"
     end
     
     def process_command
-      return Bitly.shorten(@arguments[0]).short_url if @options.shorten
-      return Bitly.expand(@arguments[0]).long_url if @options.expand
-      return Bitly.clicks(@arguments[0]).user_clicks.to_s if @options.user_clicks
-      return Bitly.clicks(@arguments[0]).global_clicks.to_s if @options.global_clicks
+      return Bitly.shorten(arguments.first, options.login, options.key).url if options.shorten
+      return Bitly.expand(arguments.first, options.login, options.key).long_url if options.expand
+      return Bitly.get_clicks(arguments.first, options.login, options.key).user_clicks.to_s if options.user_clicks
+      return Bitly.get_clicks(arguments.first, options.login, options.key).global_clicks.to_s if options.global_clicks
     end
 end
 
-app = App.new(ARGV, STDIN)
+app = App.new(ARGV)
 app.run

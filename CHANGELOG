@@ -1,0 +1,6 @@
+# 0.1.0
+
+- Moving read file ~/.bitly from Bitly class to command line script
+- Using Bitly class is an OpenStruct
+- Simplified code
+- bit.ly credentials as parameters
