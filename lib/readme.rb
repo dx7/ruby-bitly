@@ -120,8 +120,9 @@ module Readme
         end
       end
     end
+  
     if result.empty?
-      puts "Note to developer: requested section(s) [#{sections.join(', ')}] not found"
+      # puts "Note to developer: requested section(s) [#{sections.join(', ')}] not found"
       result = flow
     end
     result

@@ -13,7 +13,7 @@ class App
   VERSION = File.read(File.join(File.dirname(__FILE__), '..', 'VERSION'))
   ACCOUNT_FILE_PATH = "#{ENV['HOME']}/.bitly"
 
-  attr_accessor :arguments, :options, :message
+  attr_accessor :arguments, :options
 
   def initialize(arguments, stdin = nil)
     self.options = OpenStruct.new
@@ -27,10 +27,10 @@ class App
     if arguments_valid? 
       output_options if options.verbose
             
-      process_arguments
+      post_process_options and process_arguments
       puts "#{options.message} #{process_command}".strip
     else
-      output_help
+      output_help("ERROR: Invalid options", 'examples')
     end
   end
   
@@ -40,9 +40,7 @@ class App
       begin
         account_data = YAML.load(File.read(ACCOUNT_FILE_PATH))
       rescue
-        puts "ERROR: You need supply bit.ly credentials."
-        puts "See: bitly -h"
-        exit
+        output_help("ERROR: Crendentials not found", 'authentication')
       end
 
       if account_data
@@ -72,9 +70,7 @@ class App
       opts.on('-v', '--version')    { output_version ; exit 0 }
       opts.on('-h', '--help')       { output_help }
       opts.on('-V', '--verbose')    { options.verbose = true }
-      opts.on('-q', '--quiet')      { options.quiet = true; options.verbose = false;  options.message = '' }
-      
-      post_process_options
+      opts.on('-q', '--quiet')      { options.quiet = true; options.verbose = false }
       
       opts.parse!(arguments) rescue return false
     end
@@ -84,7 +80,10 @@ class App
       load_account_data unless options.login and options.key
       
       # Default option: --shorten
-      options.shorten = true unless options.expand or options.user_clicks or options.global_clicks
+      options.shorten = true and options.message = 'Short url:' unless options.expand or options.user_clicks or options.global_clicks
+      
+      # Message empty if option quiet exists
+      options.message = '' if options.quiet
     end
 
     def output_options
@@ -104,8 +103,10 @@ class App
     def process_arguments
     end
     
-    def output_help
-      Readme::usage() #exits app
+    def output_help(message = nil, section = "")
+      puts message if message
+      
+      Readme::usage(section) #exits app
     end
     
     def output_version
