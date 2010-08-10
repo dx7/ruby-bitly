@@ -1,30 +1,46 @@
 = A simple bitly ruby client.
 
 == Examples
-    bitly -s http://rafael.xlii.com.br
+    bitly -s http://xlii.com.br
     bitly -e http://bit.ly/XLII42
     bitly --user-clicks http://bit.ly/XLII42
     bitly --global-clicks http://bit.ly/XLII42
 
   Other examples:
-    bitly -q -s http://rafael.xlii.com.br
+    bitly -q -s http://xlii.com.br
     bitly --verbose -e http://bit.ly/XLII42
 
-== Usage 
+== Usage
     bitly [options] url
 
     For help: bitly -h
 
 == Options
-    -s, --shorten        Shorten a long url
+    -s, --shorten        Shorten a long url (default option)
     -e, --expand         Expand a short bitly url
     -u, --user-clicks    Show user clicks from the short bitly url
     -g, --global-clicks  Show global clicks from the short bitly url
-                         
+
+    -l, --login LOGIN    Your bit.ly login
+    -k, --key KEY        Your bit.ly API key
+
     -h, --help           Displays help message, then exit
     -v, --version        Display the version, then exit
     -q, --quiet          Output as little as possible, overrides verbose
     -V, --verbose        Verbose output
+
+== Authentication
+  bit.ly API require that authentication credentials be supplied.
+
+  To get started, you'll need a free bit.ly user account and apiKey. Signup at: http://bit.ly/a/sign_up
+  If you already have an account, you can find your apiKey at: http://bit.ly/a/your_api_key
+  
+  You can supply credentials as parameters. By example:
+    bitly -l username -k key-here -s http://xlii.com.br
+  
+  Or you can create the file ~/.bitly (YAML format) with this content:
+    login: username
+    key: key-here
 
 == Author
     rafaeldx7 ~ rafaeldx7(a)gmail.com
