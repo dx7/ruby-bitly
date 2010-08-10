@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ruby-bitly}
-  s.version = "0.0.9"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["rafaeldx7"]
-  s.date = %q{2010-08-04}
+  s.date = %q{2010-08-10}
   s.default_executable = %q{bitly}
   s.description = %q{This is a simple bit.ly ruby client}
   s.email = %q{rafaeldx7@gmail.com}
@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
      ".gitignore",
+     "CHANGELOG",
      "LICENSE",
      "README.rdoc",
      "Rakefile",
