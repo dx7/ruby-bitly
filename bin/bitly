@@ -40,7 +40,9 @@ class App
       begin
         account_data = YAML.load(File.read(ACCOUNT_FILE_PATH))
       rescue
-        
+        puts "ERROR: You need supply bit.ly credentials."
+        puts "See: bitly -h"
+        exit
       end
 
       if account_data
