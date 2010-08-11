@@ -28,7 +28,12 @@ class App
       output_options if options.verbose
             
       post_process_options and process_arguments
-      puts "#{options.message} #{process_command}".strip
+      
+      result = process_command
+      
+      puts "#{options.message} #{result}".strip
+      
+      copy_to_clipboard(result)
     else
       output_help("ERROR: Invalid options", 'examples')
     end
@@ -36,6 +41,10 @@ class App
   
   protected
   
+    def copy_to_clipboard(value)
+      system "printf '#{value.strip}' 2> /dev/null | pbcopy 2> /dev/null" if RUBY_PLATFORM[/darwin/]
+    end
+    
     def load_account_data
       begin
         account_data = YAML.load(File.read(ACCOUNT_FILE_PATH))
