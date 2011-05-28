@@ -1,0 +1,30 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: http://api.bit.ly:80/v3/clicks?apiKey=my-secret-key&login=my-login&shortUrl=http://bit.ly/xlii42
+    body: 
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      server: 
+      - nginx
+      date: 
+      - Sat, 28 May 2011 17:22:28 GMT
+      content-type: 
+      - application/json; charset=utf-8
+      connection: 
+      - keep-alive
+      content-length: 
+      - "187"
+      etag: 
+      - "\"20a0b40a65714ad5a2440caad07fd5c5518584b7\""
+    body: "{\"status_code\": 200, \"data\": {\"clicks\": [{\"short_url\": \"http://bit.ly/xlii42\", \"global_hash\": \"cunZEP\", \"user_clicks\": 1, \"user_hash\": \"cT1Izu\", \"global_clicks\": 1}]}, \"status_txt\": \"OK\"}"
+    http_version: "1.1"

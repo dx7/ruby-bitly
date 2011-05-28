@@ -9,7 +9,9 @@ describe "RubyBitly" do
   end
 
   it "Shorten long url" do
-    response = Bitly.shorten("http://google.com", @login, @key)
+    response = VCR.use_cassette('shorten_long_url') do
+      Bitly.shorten("http://google.com", @login, @key)
+    end
 
     response.status_code.should == 200
     response.status_txt.should == "OK"
@@ -20,13 +22,17 @@ describe "RubyBitly" do
   end
 
   it "Shorten bitly url" do
-    response = Bitly.shorten("http://bit.ly/bcvNe5", @login, @key)
+    response = VCR.use_cassette('shorten_bitly_url') do
+      Bitly.shorten("http://bit.ly/bcvNe5", @login, @key)
+    end
 
     response.status_code.should == 500
   end
 
   it "Expand a short url to it long url" do
-    response = Bitly.expand("http://bit.ly/bcvNe5", @login, @key)
+    response = VCR.use_cassette('expand_a_short_url_to_it_long_url') do
+      Bitly.expand("http://bit.ly/bcvNe5", @login, @key)
+    end
 
     response.status_code.should == 200
     response.status_txt.should == "OK"
@@ -36,7 +42,9 @@ describe "RubyBitly" do
   end
 
   it "Expand a long url should result an error" do
-    response = Bitly.expand("http://google.com", @login, @key)
+    response = VCR.use_cassette('expand_a_long_url_should_result_an_error') do
+      Bitly.expand("http://google.com", @login, @key)
+    end
 
     response.status_code.should == 200
     response.status_txt.should == "OK"
@@ -46,7 +54,9 @@ describe "RubyBitly" do
 
 
   it "Get clicks by short_url" do
-    bitly = Bitly.get_clicks("http://bit.ly/xlii42", @login, @key)
+    bitly = VCR.use_cassette('get_clicks_by_short_url') do
+      Bitly.get_clicks("http://bit.ly/xlii42", @login, @key)
+    end
 
     bitly.status_txt.should == "OK"
     bitly.status_code.should == 200
