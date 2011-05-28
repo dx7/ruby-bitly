@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'rubygems'
 require 'ruby-bitly'
-require 'optparse' 
+require 'optparse'
 require 'readme'
 require 'ostruct'
 require 'date'
@@ -23,28 +23,28 @@ class App
 
   def run
     process_options
-    
-    if arguments_valid? 
+
+    if arguments_valid?
       output_options if options.verbose
-            
+
       post_process_options and process_arguments
-      
+
       result = process_command
-      
+
       puts "#{options.message} #{result}".strip
-      
+
       copy_to_clipboard(result)
     else
       output_help("ERROR: Invalid options", 'examples')
     end
   end
-  
+
   protected
-  
+
     def copy_to_clipboard(value)
       system "printf '#{value.strip}' 2> /dev/null | pbcopy 2> /dev/null" if RUBY_PLATFORM[/darwin/]
     end
-    
+
     def load_account_data
       begin
         account_data = YAML.load(File.read(ACCOUNT_FILE_PATH))
@@ -57,71 +57,71 @@ class App
         options.key = account_data["key"]
       end
     end
-    
+
     def default_options
       options.verbose = false
       options.quiet = false
     end
-    
+
     def process_options
       default_options
-      
-      opts = OptionParser.new 
-      
+
+      opts = OptionParser.new
+
       opts.on('-s', '--shorten')       { options.shorten = true; options.message = 'Short url:' }
       opts.on('-e', '--expand')        { options.expand = true; options.message = 'Original url:' }
       opts.on('-u', '--user-clicks')   { options.user_clicks = true; options.message = 'User clicks:' }
       opts.on('-g', '--global-clicks') { options.global_clicks = true; options.message = 'Global clicks:' }
-      
+
       opts.on('-l', '--login LOGIN')  { |login| options.login = login }
       opts.on('-k', '--key KEY')      { |key| options.key = key }
-      
+
       opts.on('-v', '--version')    { output_version ; exit 0 }
       opts.on('-h', '--help')       { output_help }
       opts.on('-V', '--verbose')    { options.verbose = true }
       opts.on('-q', '--quiet')      { options.quiet = true; options.verbose = false }
-      
+
       opts.parse!(arguments) rescue return false
     end
-    
+
     def post_process_options
       # Bitly API Login / Key
       load_account_data unless options.login and options.key
-      
+
       # Default option: --shorten
       options.shorten = true and options.message = 'Short url:' unless options.expand or options.user_clicks or options.global_clicks
-      
+
       # Message empty if option quiet exists
       options.message = '' if options.quiet
     end
 
     def output_options
       puts "Options:\n"
-      
-      options.marshal_dump.each do |name, val|        
+
+      options.marshal_dump.each do |name, val|
         puts "  #{name} = #{val}"
       end
-      
+
       puts "  URL: #{arguments.first}\n"
     end
 
     def arguments_valid?
       arguments.length == 1
     end
-    
+
     def process_arguments
     end
-    
+
     def output_help(message = nil, section = "")
       puts message if message
-      
+
       Readme::usage(section) #exits app
     end
-    
+
     def output_version
       puts "bitly version #{VERSION.chomp} [gem ruby-bitly]"
     end
-    
+
     def process_command
       return Bitly.shorten(arguments.first, options.login, options.key).url if options.shorten
       return Bitly.expand(arguments.first, options.login, options.key).long_url if options.expand
