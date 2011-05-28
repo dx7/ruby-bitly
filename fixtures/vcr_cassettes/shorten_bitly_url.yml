@@ -1,0 +1,34 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :post
+    uri: http://api.bit.ly:80/v3/shorten
+    body: longURL=http%3A%2F%2Fbit.ly%2FbcvNe5&login=rafaeldx7&apiKey=R_59c1b174b21d92b2beeb4787a6d7ebaf
+    headers: 
+      accept: 
+      - "*/*; q=0.5, application/xml"
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "94"
+      content-type: 
+      - application/x-www-form-urlencoded
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      server: 
+      - nginx
+      date: 
+      - Sat, 28 May 2011 17:22:26 GMT
+      content-type: 
+      - application/json; charset=utf-8
+      connection: 
+      - keep-alive
+      mime-version: 
+      - "1.0"
+      content-length: 
+      - "73"
+    body: "{ \"data\": [ ], \"status_code\": 500, \"status_txt\": \"ALREADY_A_BITLY_LINK\" }"
+    http_version: "1.1"

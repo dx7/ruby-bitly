@@ -16,4 +16,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'rest-client','1.6.1'
   s.add_dependency 'json_pure', '1.5.1'
   s.add_development_dependency 'rspec', '2.6.0'
+  s.add_development_dependency 'vcr', '1.10.0'
+  s.add_development_dependency 'webmock', '1.6.4'
 end
