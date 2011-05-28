@@ -9,7 +9,7 @@ GEM
     diff-lcs (1.1.2)
     json_pure (1.4.3)
     mime-types (1.16)
-    rest-client (1.6.0)
+    rest-client (1.6.1)
       mime-types (>= 1.16)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
@@ -25,6 +25,6 @@ PLATFORMS
 
 DEPENDENCIES
   json_pure (= 1.4.3)
-  rest-client (= 1.6.0)
+  rest-client (= 1.6.1)
   rspec (= 2.6.0)
   ruby-bitly!
