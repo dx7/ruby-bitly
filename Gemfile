@@ -4,4 +4,4 @@ source "http://rubygems.org"
 gemspec
 gem 'rspec', '2.6.0'
 gem 'rest-client','1.6.1'
-gem 'json_pure', '1.4.3'
+gem 'json_pure', '1.5.1'
