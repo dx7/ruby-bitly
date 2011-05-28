@@ -13,7 +13,7 @@ describe "RubyBitly" do
     response.status_code.should == 200
     response.status_txt.should == "OK"
     response.new_hash.should == 0
-    response.global_hash.should == "zzzzzzz"
+    response.global_hash.should_not be_empty
     response.hash_path.length.should_not == 0
     response.url.should match /^http:\/\/bit\.ly\/[A-Za-z0-9]*/
   end
