@@ -1,6 +1,7 @@
 = A simple bit.ly ruby client.
 
 == Examples
+  require 'ruby-bitly'
 
   bitly = Bitly.shorten("http://rafaeldx7.github.com", "username", "key-here")
 
