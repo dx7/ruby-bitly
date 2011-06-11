@@ -10,7 +10,7 @@ require 'ostruct'
 require 'date'
 
 class App
-  VERSION = File.read(File.join(File.dirname(__FILE__), '..', 'VERSION'))
+  VERSION = '0.1.4'
   ACCOUNT_FILE_PATH = "#{ENV['HOME']}/.bitly"
 
   attr_accessor :arguments, :options
