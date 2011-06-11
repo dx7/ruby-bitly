@@ -10,7 +10,6 @@ require 'ostruct'
 require 'date'
 
 class App
-  VERSION = '0.1.4'
   ACCOUNT_FILE_PATH = "#{ENV['HOME']}/.bitly"
 
   attr_accessor :arguments, :options
@@ -123,7 +122,7 @@ class App
     end
 
     def output_version
-      puts "bitly version #{VERSION.chomp} [gem ruby-bitly]"
+      puts "bitly version #{Bitly::VERSION} [gem ruby-bitly]"
     end
 
     def process_command

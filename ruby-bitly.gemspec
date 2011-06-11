@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name          = "ruby-bitly"
-  s.version       = "0.1.4"
+  s.version       = Bitly::VERSION
   s.authors       = ["rafaeldx7"]
   s.email         = ["rafaeldx7@gmail.com"]
   s.homepage      = "http://github.com/rafaeldx7/ruby-bitly"

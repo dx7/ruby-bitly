@@ -6,6 +6,7 @@ require 'ostruct'
 
 class Bitly < OpenStruct
 
+  VERSION = '1.0.5.beta1'
   REST_API_URL = "http://api.bit.ly"
   ACTION_PATH = { :shorten => '/v3/shorten', :expand => '/v3/expand', :clicks => '/v3/clicks' }
 
