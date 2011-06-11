@@ -34,10 +34,10 @@
 
   To get started, you'll need a free bit.ly user account and apiKey. Signup at: http://bit.ly/a/sign_up
   If you already have an account, you can find your apiKey at: http://bit.ly/a/your_api_key
-  
+
   You can supply credentials as parameters. By example:
     bitly -l username -k key-here -s http://xlii.com.br
-  
+
   Or you can create the file ~/.bitly (YAML format) with this content:
     login: username
     key: key-here
