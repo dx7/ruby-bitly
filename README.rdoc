@@ -4,8 +4,7 @@
 
   bitly = Bitly.shorten("http://rafaeldx7.github.com", "username", "key-here")
 
-  bitly.url
-   => "http://bit.ly/le0JRh"
+  bitly.url #=> "http://bit.ly/le0JRh"
 
   y bitly
     :long_url: http://rafaeldx7.github.com/
