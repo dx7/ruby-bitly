@@ -115,7 +115,11 @@ class App
     def output_help(message = nil, section = "")
       puts message if message
 
-      Readme::usage(section) #exits app
+      File.open(File.join(File.dirname(__FILE__), '..', 'README.rdoc'), "r") do |infile|
+        while (line = infile.gets)
+          puts line
+        end
+      end
     end
 
     def output_version
