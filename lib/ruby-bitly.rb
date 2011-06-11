@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-require 'rubygems'
 require 'yaml'
 require 'restclient'
 require 'json'
@@ -35,7 +34,6 @@ class Bitly < OpenStruct
 
   def Bitly.get_clicks(new_short_url, login, key)
     response = JSON.parse RestClient.get("#{REST_API_URL}#{ACTION_PATH[:clicks]}?login=#{login}&apiKey=#{key}&shortUrl=#{new_short_url}")
-    # response = JSON.parse RestClient.get(REST_API_URL + ACTION_PATH[:clicks], { :login => login, :apiKey => key, :shortUrl => new_short_url })
 
     bitly = Bitly.new(response["data"]["clicks"].first)
     bitly.status_code = response["status_code"]
