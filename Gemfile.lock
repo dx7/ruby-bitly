@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    ruby-bitly (1.0.5.beta1)
-      rest-client (= 1.6.1)
+    ruby-bitly (0.1.5.beta3)
+      rest-client (~> 1.6.1)
 
 GEM
   remote: http://rubygems.org/
@@ -31,8 +31,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  rake (= 0.8.7)
-  rspec (= 2.6.0)
+  rake (~> 0.8.7)
+  rspec (~> 2.6.0)
   ruby-bitly!
-  vcr (= 1.10.0)
-  webmock (= 1.6.4)
+  vcr (~> 1.10.0)
+  webmock (~> 1.6.4)
