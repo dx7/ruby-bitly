@@ -5,12 +5,16 @@ require 'json'
 require 'ostruct'
 
 class Bitly < OpenStruct
+  
+  class << self
+    attr_accessor :login, :key
+  end
 
   VERSION = '0.1.5'
   REST_API_URL = "http://api.bit.ly"
   ACTION_PATH = { :shorten => '/v3/shorten', :expand => '/v3/expand', :clicks => '/v3/clicks' }
 
-  def Bitly.shorten(new_long_url, login, key)
+  def Bitly.shorten(new_long_url, login = self.login, key = self.key)
     response = JSON.parse RestClient.post(REST_API_URL + ACTION_PATH[:shorten], { :longURL => new_long_url, :login => login, :apiKey => key })
 
     bitly = Bitly.new response["data"]
@@ -22,7 +26,7 @@ class Bitly < OpenStruct
     bitly
   end
 
-  def Bitly.expand(new_short_url, login, key)
+  def Bitly.expand(new_short_url, login = self.login, key = self.key)
     response = JSON.parse RestClient.post(REST_API_URL + ACTION_PATH[:expand], { :shortURL => new_short_url, :login => login, :apiKey => key })
 
     bitly = Bitly.new(response["data"]["expand"].first)
@@ -33,7 +37,7 @@ class Bitly < OpenStruct
     bitly
   end
 
-  def Bitly.get_clicks(new_short_url, login, key)
+  def Bitly.get_clicks(new_short_url, login = self.login, key = self.key)
     response = JSON.parse RestClient.get("#{REST_API_URL}#{ACTION_PATH[:clicks]}?login=#{login}&apiKey=#{key}&shortUrl=#{new_short_url}")
 
     bitly = Bitly.new(response["data"]["clicks"].first)
