@@ -5,7 +5,7 @@ require 'json'
 require 'ostruct'
 
 class Bitly < OpenStruct
-  
+
   class << self
     attr_accessor :login, :key
   end
