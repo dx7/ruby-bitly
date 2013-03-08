@@ -15,6 +15,7 @@ class Bitly < OpenStruct
 
     def shorten(new_long_url, login = self.login, key = self.key)
       response = JSON.parse RestClient.post(REST_API_URL + ACTION_PATH[:shorten], { :longURL => new_long_url, :login => login, :apiKey => key })
+      response.delete("data") if response["data"].empty?
 
       bitly = new response["data"]
 
