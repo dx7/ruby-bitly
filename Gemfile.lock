@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     ruby-bitly (0.1.6.rc1)
+      json_pure (~> 1.7)
       rest-client (~> 1.6)
 
 GEM
@@ -10,6 +11,7 @@ GEM
     addressable (2.2.6)
     crack (0.1.8)
     diff-lcs (1.1.2)
+    json_pure (1.7.5)
     mime-types (1.21)
     rake (0.8.7)
     rest-client (1.6.7)
