@@ -4,7 +4,7 @@ require "ruby-bitly/version"
 
 Gem::Specification.new do |s|
   s.name          = "ruby-bitly"
-  s.version       = Bitly::VERSION
+  s.version       = BitlyGem::VERSION
   s.authors       = ["rafaeldx7"]
   s.email         = ["rafaeldx7@gmail.com"]
   s.homepage      = "http://github.com/rafaeldx7/ruby-bitly"

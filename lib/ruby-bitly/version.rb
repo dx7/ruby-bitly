@@ -1,3 +1,3 @@
-class Bitly
-  VERSION = '0.1.5'
+module BitlyGem
+  VERSION = '0.1.6.rc1'
 end
