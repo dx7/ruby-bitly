@@ -4,8 +4,8 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe "RubyBitly" do
 
   before(:all) do
-    @login = ENV['BITLY_LOGIN']
-    @key = ENV['BITLY_KEY']
+    @login = 'my-login'
+    @key = 'my-secret-key'
   end
 
   it "Shorten long url" do
