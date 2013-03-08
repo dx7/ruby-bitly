@@ -1,36 +1,36 @@
---- 
-- !ruby/struct:VCR::HTTPInteraction 
-  request: !ruby/struct:VCR::Request 
+---
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
     method: :post
     uri: http://api.bit.ly:80/v3/shorten
     body: longURL=http%3A%2F%2Fgoogle.com&login=my-login&apiKey=my-secret-key
-    headers: 
-      accept: 
+    headers:
+      accept:
       - "*/*; q=0.5, application/xml"
-      accept-encoding: 
+      accept-encoding:
       - gzip, deflate
-      content-length: 
+      content-length:
       - "89"
-      content-type: 
+      content-type:
       - application/x-www-form-urlencoded
-  response: !ruby/struct:VCR::Response 
-    status: !ruby/struct:VCR::ResponseStatus 
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
       code: 200
       message: OK
-    headers: 
-      server: 
+    headers:
+      server:
       - nginx
-      date: 
+      date:
       - Sat, 28 May 2011 17:11:14 GMT
-      content-type: 
+      content-type:
       - application/json; charset=utf-8
-      connection: 
+      connection:
       - keep-alive
-      mime-version: 
+      mime-version:
       - "1.0"
-      content-length: 
+      content-length:
       - "184"
     body: |
-      { "status_code": 200, "status_txt": "OK", "data": { "long_url": "http:\/\/google.com\/", "url": "http:\/\/bit.ly\/lVW32C", "hash": "lVW32C", "global_hash": "3j4ir4", "new_hash": 0 } }
+      { "status_code": 200, "status_txt": "OK", "data": { "long_url": "http:\/\/google.com\/", "url": "http:\/\/bit.ly\/lVW32C", "hash": "lVW32C", "global_hash": "3j4ir4", "new_hash": 3 } }
 
     http_version: "1.1"
