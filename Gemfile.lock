@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ruby-bitly (0.1.6.rc1)
+    ruby-bitly (0.1.6)
       json_pure (~> 1.7)
       rest-client (~> 1.6)
 
