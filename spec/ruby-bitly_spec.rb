@@ -8,9 +8,22 @@ describe "RubyBitly" do
     @key = 'my-secret-key'
   end
 
-  it "Shorten long url" do
+  it "Shorten long url using old API" do
     response = VCR.use_cassette('shorten_long_url') do
       Bitly.shorten("http://google.com", @login, @key)
+    end
+
+    response.status_code.should == 200
+    response.status_txt.should == "OK"
+    response.new_hash.should == 3
+    response.global_hash.should_not be_empty
+    response.hash_path.length.should_not == 0
+    response.url.should match /^http:\/\/bit\.ly\/[A-Za-z0-9]*/
+  end
+  
+  it 'Shorten long url using options API' do
+    response = VCR.use_cassette('shorten_long_url') do
+      Bitly.shorten(:long_url => "http://google.com", :login => @login, :api_key => @key)
     end
 
     response.status_code.should == 200

@@ -12,7 +12,26 @@ class Bitly < OpenStruct
   class << self
     attr_accessor :login, :key
 
+    # Old API:
+    #
+    # shorten(new_long_url, login = self.login, key = self.key)
+    #
+    # New API:
+    #
+    # shorten(options)
+    #
+    # Options can have:
+    #
+    # :long_url
+    # :login
+    # :api_key
     def shorten(new_long_url, login = self.login, key = self.key)
+      if new_long_url.is_a?(Hash)
+        options = new_long_url
+        new_long_url = options[:long_url]
+        login = options[:login] || self.login
+        key = options[:api_key] || self.key
+      end
       response = JSON.parse RestClient.post(REST_API_URL + ACTION_PATH[:shorten], { :longURL => new_long_url, :login => login, :apiKey => key })
       response.delete("data") if response["data"].empty?
 
