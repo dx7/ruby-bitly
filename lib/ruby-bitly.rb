@@ -25,14 +25,21 @@ class Bitly < OpenStruct
     # :long_url
     # :login
     # :api_key
+    # :domain
     def shorten(new_long_url, login = self.login, key = self.key)
       if new_long_url.is_a?(Hash)
         options = new_long_url
         new_long_url = options[:long_url]
         login = options[:login] || self.login
         key = options[:api_key] || self.key
+      else
+        options = {}
       end
-      response = JSON.parse RestClient.post(REST_API_URL + ACTION_PATH[:shorten], { :longURL => new_long_url, :login => login, :apiKey => key })
+      params = { :longURL => new_long_url, :login => login, :apiKey => key }
+      if options[:domain]
+        params[:domain] = options[:domain]
+      end
+      response = JSON.parse RestClient.post(REST_API_URL + ACTION_PATH[:shorten], params)
       response.delete("data") if response["data"].empty?
 
       bitly = new response["data"]

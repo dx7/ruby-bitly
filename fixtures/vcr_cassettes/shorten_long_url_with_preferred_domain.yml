@@ -1,0 +1,38 @@
+---
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :post
+    uri: http://api.bit.ly:80/v3/shorten
+    body: longURL=http%3A%2F%2Fgoogle.com&login=my-login&apiKey=my-secret-key&domain=j.mp
+    headers:
+      accept:
+      - ! '*/*; q=0.5, application/xml'
+      accept-encoding:
+      - gzip, deflate
+      content-length:
+      - '99'
+      content-type:
+      - application/x-www-form-urlencoded
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      server:
+      - nginx
+      date:
+      - Wed, 03 Apr 2013 19:39:42 GMT
+      content-type:
+      - application/json; charset=utf-8
+      connection:
+      - keep-alive
+      mime-version:
+      - '1.0'
+      content-length:
+      - '180'
+    body: ! '{ "status_code": 200, "status_txt": "OK", "data": { "long_url": "http:\/\/google.com\/",
+      "url": "http:\/\/j.mp\/XqfZJt", "hash": "XqfZJt", "global_hash": "LmvF", "new_hash":
+      3 } }
+
+'
+    http_version: '1.1'
