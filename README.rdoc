@@ -1,5 +1,7 @@
 = A simple bit.ly ruby client.
 
+{<img src="https://codeclimate.com/github/rafaeldx7/ruby-bitly.png" />}[https://codeclimate.com/github/rafaeldx7/ruby-bitly]
+
 == Examples
   require 'ruby-bitly'
 
