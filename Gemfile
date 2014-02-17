@@ -10,7 +10,7 @@ group :development, :test do
   end
 
   platforms :ruby_19, :ruby_20 do
-    gem 'debugger'
+    gem 'debugger', '1.6.5'
   end
 
 end
