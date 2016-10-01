@@ -1,6 +1,6 @@
 = A simple bit.ly ruby client.
 
-{<img src="https://codeclimate.com/github/rafaeldx7/ruby-bitly.png" />}[https://codeclimate.com/github/rafaeldx7/ruby-bitly]
+{<img src="https://codeclimate.com/github/dx7/ruby-bitly/badges/gpa.svg" />}[https://codeclimate.com/github/dx7/ruby-bitly]
 
 == Examples
   require 'ruby-bitly'
@@ -63,7 +63,7 @@
     key: <key-here>
 
 == Author
-    rafaeldx7 ~ rafaeldx7(a)gmail.com
+    dx7 ~ dx7(a)protonmail.ch
 
 == Copyright
     Copyright (c) 2010 rafaeldx7. Licensed under the MIT License:
