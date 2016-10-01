@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
-  s.add_dependency('rest-client', '~> 1.6')
+  s.add_dependency('rest-client', '~> 2.0')
   s.add_dependency('json_pure', '~> 1.7')
   s.add_development_dependency('byebug')
   s.add_development_dependency('rake')
