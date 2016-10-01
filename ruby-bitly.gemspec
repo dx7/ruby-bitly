@@ -16,8 +16,9 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.add_dependency('rest-client', '~> 1.6')
   s.add_dependency('json_pure', '~> 1.7')
+  s.add_development_dependency('byebug')
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec', '~> 2.13')
-  s.add_development_dependency('vcr', '~> 1.10.0')
-  s.add_development_dependency('webmock', '~> 1.6.4')
+  s.add_development_dependency('vcr', '~> 3.0')
+  s.add_development_dependency('webmock', '~> 2.1')
 end

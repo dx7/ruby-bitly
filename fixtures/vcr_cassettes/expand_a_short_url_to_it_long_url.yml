@@ -1,36 +1,46 @@
---- 
-- !ruby/struct:VCR::HTTPInteraction 
-  request: !ruby/struct:VCR::Request 
-    method: :post
-    uri: http://api.bit.ly:80/v3/expand
-    body: shortURL=http%3A%2F%2Fbit.ly%2FbcvNe5&login=my-login&apiKey=my-secret-key
-    headers: 
-      accept: 
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://api.bit.ly/v3/expand
+    body:
+      encoding: UTF-8
+      string: shortURL=http%3A%2F%2Fbit.ly%2FbcvNe5&login=my-login&apiKey=my-api-key
+    headers:
+      Accept:
       - "*/*; q=0.5, application/xml"
-      accept-encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      content-length: 
-      - "95"
-      content-type: 
+      Content-Length:
+      - '95'
+      Content-Type:
       - application/x-www-form-urlencoded
-  response: !ruby/struct:VCR::Response 
-    status: !ruby/struct:VCR::ResponseStatus 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      server: 
+    headers:
+      Server:
       - nginx
-      date: 
-      - Sat, 28 May 2011 17:22:27 GMT
-      content-type: 
+      Date:
+      - Sat, 01 Oct 2016 19:29:26 GMT
+      Content-Type:
       - application/json; charset=utf-8
-      connection: 
+      Content-Length:
+      - '197'
+      Connection:
       - keep-alive
-      mime-version: 
-      - "1.0"
-      content-length: 
-      - "197"
-    body: |
-      { "status_code": 200, "status_txt": "OK", "data": { "expand": [ { "short_url": "http:\/\/bit.ly\/bcvNe5", "long_url": "http:\/\/google.com", "user_hash": "bcvNe5", "global_hash": "zzzzzzz" } ] } }
+      Mime-Version:
+      - '1.0'
+    body:
+      encoding: UTF-8
+      string: '{ "status_code": 200, "status_txt": "OK", "data": { "expand": [ { "short_url":
+        "http:\/\/bit.ly\/bcvNe5", "long_url": "http:\/\/google.com", "user_hash":
+        "bcvNe5", "global_hash": "zzzzzzz" } ] } }
 
-    http_version: "1.1"
+'
+    http_version: 
+  recorded_at: Sat, 01 Oct 2016 19:29:26 GMT
+recorded_with: VCR 3.0.3

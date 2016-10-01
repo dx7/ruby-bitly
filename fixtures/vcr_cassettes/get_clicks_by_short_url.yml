@@ -1,30 +1,40 @@
---- 
-- !ruby/struct:VCR::HTTPInteraction 
-  request: !ruby/struct:VCR::Request 
-    method: :get
-    uri: http://api.bit.ly:80/v3/clicks?apiKey=my-secret-key&login=my-login&shortUrl=http://bit.ly/xlii42
-    body: 
-    headers: 
-      accept: 
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.bit.ly/v3/clicks?apiKey=my-api-key&login=my-login&shortUrl=http://bit.ly/xlii42
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - "*/*; q=0.5, application/xml"
-      accept-encoding: 
+      Accept-Encoding:
       - gzip, deflate
-  response: !ruby/struct:VCR::Response 
-    status: !ruby/struct:VCR::ResponseStatus 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      server: 
+    headers:
+      Server:
       - nginx
-      date: 
-      - Sat, 28 May 2011 17:22:28 GMT
-      content-type: 
+      Date:
+      - Sat, 01 Oct 2016 19:29:27 GMT
+      Content-Type:
       - application/json; charset=utf-8
-      connection: 
+      Content-Length:
+      - '187'
+      Connection:
       - keep-alive
-      content-length: 
-      - "187"
-      etag: 
-      - "\"20a0b40a65714ad5a2440caad07fd5c5518584b7\""
-    body: "{\"status_code\": 200, \"data\": {\"clicks\": [{\"short_url\": \"http://bit.ly/xlii42\", \"global_hash\": \"cunZEP\", \"user_clicks\": 1, \"user_hash\": \"cT1Izu\", \"global_clicks\": 1}]}, \"status_txt\": \"OK\"}"
-    http_version: "1.1"
+      Etag:
+      - '"a6d2ce859ab41b205deb5d920fa10e3143a79bf2"'
+    body:
+      encoding: UTF-8
+      string: '{"status_code": 200, "data": {"clicks": [{"short_url": "http://bit.ly/xlii42",
+        "global_hash": "cunZEP", "user_clicks": 2, "user_hash": "cT1Izu", "global_clicks":
+        2}]}, "status_txt": "OK"}'
+    http_version: 
+  recorded_at: Sat, 01 Oct 2016 19:29:27 GMT
+recorded_with: VCR 3.0.3

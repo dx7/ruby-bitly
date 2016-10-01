@@ -6,9 +6,9 @@ require 'rspec'
 require 'rspec/autorun'
 require 'vcr'
 
-VCR.config do |c|
+VCR.configure do |c|
   c.cassette_library_dir = 'fixtures/vcr_cassettes'
   c.ignore_localhost = true
-  c.stub_with :webmock # or :fakeweb
+  c.hook_into :webmock # or :fakeweb
   c.default_cassette_options = { :record => :once }
 end

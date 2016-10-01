@@ -1,36 +1,46 @@
 ---
-- !ruby/struct:VCR::HTTPInteraction
-  request: !ruby/struct:VCR::Request
-    method: :post
-    uri: http://api.bit.ly:80/v3/shorten
-    body: longURL=http%3A%2F%2Fgoogle.com&login=my-login&apiKey=my-secret-key
+http_interactions:
+- request:
+    method: post
+    uri: http://api.bit.ly/v3/shorten
+    body:
+      encoding: UTF-8
+      string: longURL=http%3A%2F%2Fgoogle.com&login=my-login&apiKey=my-api-key
     headers:
-      accept:
+      Accept:
       - "*/*; q=0.5, application/xml"
-      accept-encoding:
+      Accept-Encoding:
       - gzip, deflate
-      content-length:
-      - "89"
-      content-type:
+      Content-Length:
+      - '89'
+      Content-Type:
       - application/x-www-form-urlencoded
-  response: !ruby/struct:VCR::Response
-    status: !ruby/struct:VCR::ResponseStatus
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
     headers:
-      server:
+      Server:
       - nginx
-      date:
-      - Sat, 28 May 2011 17:11:14 GMT
-      content-type:
+      Date:
+      - Sat, 01 Oct 2016 19:28:37 GMT
+      Content-Type:
       - application/json; charset=utf-8
-      connection:
+      Content-Length:
+      - '184'
+      Connection:
       - keep-alive
-      mime-version:
-      - "1.0"
-      content-length:
-      - "184"
-    body: |
-      { "status_code": 200, "status_txt": "OK", "data": { "long_url": "http:\/\/google.com\/", "url": "http:\/\/bit.ly\/lVW32C", "hash": "lVW32C", "global_hash": "3j4ir4", "new_hash": 3 } }
+      Mime-Version:
+      - '1.0'
+    body:
+      encoding: UTF-8
+      string: '{ "status_code": 200, "status_txt": "OK", "data": { "long_url": "http:\/\/google.com\/",
+        "url": "http:\/\/bit.ly\/lVW32C", "hash": "lVW32C", "global_hash": "3j4ir4",
+        "new_hash": 0 } }
 
-    http_version: "1.1"
+'
+    http_version: 
+  recorded_at: Sat, 01 Oct 2016 19:28:37 GMT
+recorded_with: VCR 3.0.3
