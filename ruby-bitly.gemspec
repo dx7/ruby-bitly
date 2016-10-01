@@ -5,9 +5,9 @@ require "ruby-bitly/version"
 Gem::Specification.new do |s|
   s.name          = "ruby-bitly"
   s.version       = BitlyGem::VERSION
-  s.authors       = ["rafaeldx7"]
-  s.email         = ["rafaeldx7@gmail.com"]
-  s.homepage      = "http://github.com/rafaeldx7/ruby-bitly"
+  s.authors       = ["dx7"]
+  s.email         = ["dx7@protonmail.ch"]
+  s.homepage      = "http://github.com/dx7/ruby-bitly"
   s.summary       = %q{A simple bit.ly ruby client}
   s.description   = %q{A simple bit.ly ruby client}
   s.files         = `git ls-files`.split("\n")
