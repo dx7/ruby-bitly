@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency('rest-client', '~> 2.0')
   s.add_development_dependency('byebug')
   s.add_development_dependency('rake')
-  s.add_development_dependency('rspec', '~> 2.13')
+  s.add_development_dependency('rspec', '~> 3.5')
   s.add_development_dependency('vcr', '~> 3.0')
   s.add_development_dependency('webmock', '~> 2.1')
 end
