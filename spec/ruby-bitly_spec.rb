@@ -18,9 +18,9 @@ describe "RubyBitly" do
     response.new_hash.should == 3
     response.global_hash.should_not be_empty
     response.hash_path.length.should_not == 0
-    response.url.should match /^http:\/\/bit\.ly\/[A-Za-z0-9]*/
+    response.url.should match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
   end
-  
+
   it 'Shorten long url using options API' do
     response = VCR.use_cassette('shorten_long_url') do
       Bitly.shorten(:long_url => "http://google.com", :login => @login, :api_key => @key)
@@ -31,7 +31,7 @@ describe "RubyBitly" do
     response.new_hash.should == 3
     response.global_hash.should_not be_empty
     response.hash_path.length.should_not == 0
-    response.url.should match /^http:\/\/bit\.ly\/[A-Za-z0-9]*/
+    response.url.should match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
   end
 
   it 'Shorten url with a preferred domain' do
@@ -45,7 +45,7 @@ describe "RubyBitly" do
     response.new_hash.should == 3
     response.global_hash.should_not be_empty
     response.hash_path.length.should_not == 0
-    response.url.should match /^http:\/\/j\.mp\/[A-Za-z0-9]*/
+    response.url.should match(/^http:\/\/j\.mp\/[A-Za-z0-9]*/)
   end
 
   it "Shorten bitly url" do
