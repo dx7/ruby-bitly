@@ -14,12 +14,12 @@ describe "RubyBitly" do
       Bitly.shorten("http://google.com", @login, @key)
     end
 
-    response.status_txt.should == "OK"
-    response.status_code.should == 200
-    response.new_hash.should == 0
-    response.global_hash.should_not be_empty
-    response.hash_path.length.should_not == 0
-    response.url.should match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
+    expect(response.status_txt).to eq("OK")
+    expect(response.status_code).to eq(200)
+    expect(response.new_hash).to eq(0)
+    expect(response.global_hash).not_to be_empty
+    expect(response.hash_path.length).not_to eq(0)
+    expect(response.url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
   end
 
   it 'Shorten long url using options API' do
@@ -27,12 +27,12 @@ describe "RubyBitly" do
       Bitly.shorten(:long_url => "http://google.com", :login => @login, :api_key => @key)
     end
 
-    response.status_code.should == 200
-    response.status_txt.should == "OK"
-    response.new_hash.should == 0
-    response.global_hash.should_not be_empty
-    response.hash_path.length.should_not == 0
-    response.url.should match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
+    expect(response.status_code).to eq(200)
+    expect(response.status_txt).to eq("OK")
+    expect(response.new_hash).to eq(0)
+    expect(response.global_hash).not_to be_empty
+    expect(response.hash_path.length).not_to eq(0)
+    expect(response.url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
   end
 
   it 'Shorten url with a preferred domain' do
@@ -41,12 +41,12 @@ describe "RubyBitly" do
         :login => @login, :api_key => @key)
     end
 
-    response.status_code.should == 200
-    response.status_txt.should == "OK"
-    response.new_hash.should == 0
-    response.global_hash.should_not be_empty
-    response.hash_path.length.should_not == 0
-    response.url.should match(/^http:\/\/j\.mp\/[A-Za-z0-9]*/)
+    expect(response.status_code).to eq(200)
+    expect(response.status_txt).to eq("OK")
+    expect(response.new_hash).to eq(0)
+    expect(response.global_hash).not_to be_empty
+    expect(response.hash_path.length).not_to eq(0)
+    expect(response.url).to match(/^http:\/\/j\.mp\/[A-Za-z0-9]*/)
   end
 
   it "Shorten bitly url" do
@@ -54,7 +54,7 @@ describe "RubyBitly" do
       Bitly.shorten("http://bit.ly/bcvNe5", @login, @key)
     end
 
-    response.status_code.should == 500
+    expect(response.status_code).to eq(500)
   end
 
   it "Expand a short url to it long url" do
@@ -62,11 +62,11 @@ describe "RubyBitly" do
       Bitly.expand("http://bit.ly/bcvNe5", @login, @key)
     end
 
-    response.status_code.should == 200
-    response.status_txt.should == "OK"
-    response.long_url.should == "http://google.com"
-    response.short_url.should == "http://bit.ly/bcvNe5"
-    response.user_hash.should == "bcvNe5"
+    expect(response.status_code).to eq(200)
+    expect(response.status_txt).to eq("OK")
+    expect(response.long_url).to eq("http://google.com")
+    expect(response.short_url).to eq("http://bit.ly/bcvNe5")
+    expect(response.user_hash).to eq("bcvNe5")
   end
 
   it "Expand a long url should result an error" do
@@ -74,10 +74,10 @@ describe "RubyBitly" do
       Bitly.expand("http://google.com", @login, @key)
     end
 
-    response.status_code.should == 200
-    response.status_txt.should == "OK"
-    response.long_url.should == "NOT_FOUND"
-    response.short_url.should == "http://google.com"
+    expect(response.status_code).to eq(200)
+    expect(response.status_txt).to eq("OK")
+    expect(response.long_url).to eq("NOT_FOUND")
+    expect(response.short_url).to eq("http://google.com")
   end
 
 
@@ -86,12 +86,12 @@ describe "RubyBitly" do
       Bitly.get_clicks("http://bit.ly/xlii42", @login, @key)
     end
 
-    bitly.status_txt.should == "OK"
-    bitly.status_code.should == 200
-    bitly.global_clicks.should be_an_instance_of Fixnum
-    bitly.user_clicks.should be_an_instance_of Fixnum
-    bitly.short_url.should == "http://bit.ly/xlii42"
-    bitly.global_hash.should == "cunZEP"
-    bitly.user_hash.should == "cT1Izu"
+    expect(bitly.status_txt).to eq("OK")
+    expect(bitly.status_code).to eq(200)
+    expect(bitly.global_clicks).to be_an_instance_of Fixnum
+    expect(bitly.user_clicks).to be_an_instance_of Fixnum
+    expect(bitly.short_url).to eq("http://bit.ly/xlii42")
+    expect(bitly.global_hash).to eq("cunZEP")
+    expect(bitly.user_hash).to eq("cT1Izu")
   end
 end
