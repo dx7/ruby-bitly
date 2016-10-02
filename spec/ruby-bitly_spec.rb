@@ -27,8 +27,8 @@ describe "RubyBitly" do
       Bitly.shorten(:long_url => "http://google.com", :login => @login, :api_key => @key)
     end
 
-    expect(response.status_code).to eq(200)
     expect(response.status_txt).to eq("OK")
+    expect(response.status_code).to eq(200)
     expect(response.new_hash).to eq(0)
     expect(response.global_hash).not_to be_empty
     expect(response.hash_path.length).not_to eq(0)
@@ -41,8 +41,8 @@ describe "RubyBitly" do
         :login => @login, :api_key => @key)
     end
 
-    expect(response.status_code).to eq(200)
     expect(response.status_txt).to eq("OK")
+    expect(response.status_code).to eq(200)
     expect(response.new_hash).to eq(0)
     expect(response.global_hash).not_to be_empty
     expect(response.hash_path.length).not_to eq(0)
@@ -54,8 +54,8 @@ describe "RubyBitly" do
       Bitly.shorten("http://bit.ly/bcvNe5", @login, @key)
     end
 
-    expect(response.status_code).to eq(500)
     expect(response.status_txt).to eq("ALREADY_A_BITLY_LINK")
+    expect(response.status_code).to eq(500)
   end
 
   it "Expand a short url to it long url" do
@@ -63,8 +63,8 @@ describe "RubyBitly" do
       Bitly.expand("http://bit.ly/bcvNe5", @login, @key)
     end
 
-    expect(response.status_code).to eq(200)
     expect(response.status_txt).to eq("OK")
+    expect(response.status_code).to eq(200)
     expect(response.long_url).to eq("http://google.com")
     expect(response.short_url).to eq("http://bit.ly/bcvNe5")
     expect(response.user_hash).to eq("bcvNe5")
@@ -75,8 +75,8 @@ describe "RubyBitly" do
       Bitly.expand("http://google.com", @login, @key)
     end
 
-    expect(response.status_code).to eq(200)
     expect(response.status_txt).to eq("OK")
+    expect(response.status_code).to eq(200)
     expect(response.long_url).to eq("NOT_FOUND")
     expect(response.short_url).to eq("http://google.com")
   end
