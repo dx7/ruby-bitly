@@ -4,14 +4,12 @@ require 'byebug'
 
 describe "RubyBitly" do
 
-  before(:all) do
-    @login = ENV['RUBY_BITLY_LOGIN'] || 'my-login'
-    @key = ENV['RUBY_BITLY_APIKEY'] || 'my-api-key'
-  end
+  let(:login) { ENV['RUBY_BITLY_LOGIN'] || 'my-login' }
+  let(:key) { ENV['RUBY_BITLY_APIKEY'] || 'my-api-key' }
 
   it "Shorten long url using old API" do
     response = VCR.use_cassette('shorten_long_url') do
-      Bitly.shorten("http://google.com", @login, @key)
+      Bitly.shorten("http://google.com", login, key)
     end
 
     expect(response.status_txt).to eq("OK")
@@ -24,7 +22,7 @@ describe "RubyBitly" do
 
   it 'Shorten long url using options API' do
     response = VCR.use_cassette('shorten_long_url') do
-      Bitly.shorten(:long_url => "http://google.com", :login => @login, :api_key => @key)
+      Bitly.shorten(:long_url => "http://google.com", :login => login, :api_key => key)
     end
 
     expect(response.status_txt).to eq("OK")
@@ -38,7 +36,7 @@ describe "RubyBitly" do
   it 'Shorten url with a preferred domain' do
     response = VCR.use_cassette('shorten_long_url_with_preferred_domain') do
       Bitly.shorten(:long_url => "http://google.com", :domain => 'j.mp',
-        :login => @login, :api_key => @key)
+        :login => login, :api_key => key)
     end
 
     expect(response.status_txt).to eq("OK")
@@ -51,7 +49,7 @@ describe "RubyBitly" do
 
   it "Shorten bitly url" do
     response = VCR.use_cassette('shorten_bitly_url') do
-      Bitly.shorten("http://bit.ly/bcvNe5", @login, @key)
+      Bitly.shorten("http://bit.ly/bcvNe5", login, key)
     end
 
     expect(response.status_txt).to eq("ALREADY_A_BITLY_LINK")
@@ -60,7 +58,7 @@ describe "RubyBitly" do
 
   it "Expand a short url to it long url using old API" do
     response = VCR.use_cassette('expand_a_short_url_to_it_long_url') do
-      Bitly.expand("http://bit.ly/bcvNe5", @login, @key)
+      Bitly.expand("http://bit.ly/bcvNe5", login, key)
     end
 
     expect(response.status_txt).to eq("OK")
@@ -72,7 +70,7 @@ describe "RubyBitly" do
 
   it "Expand a short url to it long url using options API" do
     response = VCR.use_cassette('expand_a_short_url_to_it_long_url') do
-      Bitly.expand({ :short_url => "http://bit.ly/bcvNe5", :login => @login, :api_key => @key })
+      Bitly.expand({ :short_url => "http://bit.ly/bcvNe5", :login => login, :api_key => key })
     end
 
     expect(response.status_txt).to eq("OK")
@@ -84,7 +82,7 @@ describe "RubyBitly" do
 
   it "Expand a long url should result an error" do
     response = VCR.use_cassette('expand_a_long_url_should_result_an_error') do
-      Bitly.expand("http://google.com", @login, @key)
+      Bitly.expand("http://google.com", login, key)
     end
 
     expect(response.status_txt).to eq("OK")
@@ -96,7 +94,7 @@ describe "RubyBitly" do
 
   it "Get clicks by short_url using old API" do
     bitly = VCR.use_cassette('get_clicks_by_short_url') do
-      Bitly.get_clicks("http://bit.ly/xlii42", @login, @key)
+      Bitly.get_clicks("http://bit.ly/xlii42", login, key)
     end
 
     expect(bitly.status_txt).to eq("OK")
@@ -110,7 +108,7 @@ describe "RubyBitly" do
 
   it "Get clicks by short_url using options API" do
     bitly = VCR.use_cassette('get_clicks_by_short_url') do
-      Bitly.get_clicks(:short_url => "http://bit.ly/xlii42", :login => @login, :api_key => @key)
+      Bitly.get_clicks(:short_url => "http://bit.ly/xlii42", :login => login, :api_key => key)
     end
 
     expect(bitly.status_txt).to eq("OK")
