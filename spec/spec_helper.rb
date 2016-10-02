@@ -8,6 +8,6 @@ require 'vcr'
 VCR.configure do |c|
   c.cassette_library_dir = 'fixtures/vcr_cassettes'
   c.ignore_localhost = true
-  c.hook_into :webmock # or :fakeweb
-  c.default_cassette_options = { :record => :once }
+  c.hook_into :webmock
+  c.default_cassette_options = { :record => :once, :match_requests_on => [:method, :uri, :host, :path, :body, :query] }
 end
