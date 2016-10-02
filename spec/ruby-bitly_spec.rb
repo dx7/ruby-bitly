@@ -55,6 +55,7 @@ describe "RubyBitly" do
     end
 
     expect(response.status_code).to eq(500)
+    expect(response.status_txt).to eq("ALREADY_A_BITLY_LINK")
   end
 
   it "Expand a short url to it long url" do
