@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://api.bit.ly/v3/expand
+    uri: http://api.bitly.com/v3/expand
     body:
       encoding: UTF-8
       string: shortURL=http%3A%2F%2Fbit.ly%2FbcvNe5&login=my-login&apiKey=my-api-key

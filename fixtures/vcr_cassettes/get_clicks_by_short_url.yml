@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.bit.ly/v3/clicks?apiKey=my-api-key&login=my-login&shortUrl=http://bit.ly/xlii42
+    uri: http://api.bitly.com/v3/clicks?apiKey=my-api-key&login=my-login&shortUrl=http://bit.ly/xlii42
     body:
       encoding: US-ASCII
       string: ''
