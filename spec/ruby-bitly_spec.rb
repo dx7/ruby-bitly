@@ -5,8 +5,8 @@ require 'byebug'
 describe "RubyBitly" do
 
   before(:all) do
-    @login = 'my-login'
-    @key = 'my-api-key'
+    @login = ENV['RUBY_BITLY_LOGIN'] || 'my-login'
+    @key = ENV['RUBY_BITLY_APIKEY'] || 'my-api-key'
   end
 
   it "Shorten long url using old API" do
