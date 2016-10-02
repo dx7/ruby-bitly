@@ -4,15 +4,44 @@
 {<img src="https://codeclimate.com/github/dx7/ruby-bitly/badges/gpa.svg" />}[https://codeclimate.com/github/dx7/ruby-bitly]
 
 
-== Shorten
+== Configuration
+  You need to load the gem:
+
   require 'ruby-bitly'
 
-  # old way (deprecated)
+  Set global configuration if you want:
+
+  Bitly.config do |c|
+    c.login = 'login-here'
+    c.api_key = 'key-here'
+    c.key = 'key-here' # deprecated
+    c.use_ssl = false # read more below
+  end
+
+  Or set them individualy:
+
+  Bitly.login = 'login-here'
+  Bitly.api_key = 'key-here'
+  Bitly.key = 'key-here' # deprecated
+  Bitly.use_ssl = false # default: true
+
+  Or set them on methods if you prefer (see it below).
+
+
+== Shorten
+  # old way
+  bitly = Bitly.shorten("https://dx7.github.io/")
+
+  # old way setting local configuration
   bitly = Bitly.shorten("https://dx7.github.io/", "login-here", "key-here")
 
   # new way
-  bitly = Bitly.shorten(long_url: "https://dx7.github.io/", login: "login-here", api_key: "key-here")
+  bitly = Bitly.shorten(long_url: "https://dx7.github.io/")
 
+  # new way setting local configuration
+  bitly = Bitly.shorten(long_url: "https://dx7.github.io/", login: "login-here", api_key: "key-here", domain: "my.do")
+
+  # result
   bitly.url #=> "http://bit.ly/2dAjjfo"
 
   y bitly
@@ -27,14 +56,19 @@
 
 
 == Expand
-  require 'ruby-bitly'
+  # old way
+  bitly = Bitly.expand("http://bit.ly/2dAjjfo")
 
-  # old way (deprecated)
+  # old way setting local configuration
   bitly = Bitly.expand("http://bit.ly/2dAjjfo", "login-here", "key-here")
 
   # new way
+  bitly = Bitly.expand(short_url: "http://bit.ly/2dAjjfo")
+
+  # new way setting local configuration
   bitly = Bitly.expand(short_url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "key-here")
 
+  # result
   y bitly
     :short_url: http://bit.ly/2dAjjfo
     :long_url: https://dx7.github.io/
@@ -45,14 +79,19 @@
 
 
 == Get Clicks
-  require 'ruby-bitly'
+  # old way
+  bitly = Bitly.get_clicks("http://bit.ly/2dAjjfo")
 
-  # old way (deprecated)
+  # old way setting local configuration
   bitly = Bitly.get_clicks("http://bit.ly/2dAjjfo", "login-here", "key-here")
 
   # new way
+  bitly = Bitly.get_clicks(short_url: "http://bit.ly/2dAjjfo")
+
+  # new way setting local configuration
   bitly = Bitly.get_clicks(short_url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "key-here")
 
+  # result
   y bitly
     :short_url: https://bit.ly/2dAjjfo
     :global_hash: 2dAkyet
@@ -107,14 +146,14 @@
 == Authentication
   bit.ly API requires authentication credentials.
 
-  You need a free bit.ly user account and apiKey. Signup at: http://bit.ly/a/sign_up
-  If you already have an account, you can find your apiKey at: http://bit.ly/a/your_api_key
+  You'll need a free bit.ly login and apiKey. Sign up here: http://bit.ly/a/sign_up
+  If you've already signed up, you can find your apiKey here: http://bit.ly/a/your_api_key
 
-  You can supply credentials as parameters. For example:
-    bitly -l <username> -k <key-here> -s http://dx7.github.io
+  Using commmand line you can supply credentials as parameters. For example:
+    bitly -l <login-here> -k <key-here> -s http://dx7.github.io
 
-  Or you can create the file ~/.bitly (YAML format) with this content:
-    login: <username>
+  Or you can create the file ~/.bitly (YAML format) with that content:
+    login: <login-here>
     key: <key-here>
 
 
