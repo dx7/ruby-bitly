@@ -258,24 +258,24 @@ describe 'RubyBitly' do
 
   describe 'proxy' do
     it 'uses http_proxy as default' do
-      expect(RestClient.proxy).not_to eq('http://http_proxy.host.com:1234')
+      expect(RestClient.proxy).not_to eq('http://http-proxy.host.com:1234')
 
-      ENV['http_proxy'] = 'http://http_proxy.host.com:1234'
+      ENV['http_proxy'] = 'http://http-proxy.host.com:1234'
       Object.send :remove_const, :Bitly
       load './lib/ruby-bitly.rb'
 
-      expect(RestClient.proxy).to eq('http://http_proxy.host.com:1234')
+      expect(RestClient.proxy).to eq('http://http-proxy.host.com:1234')
     end
 
     it 'uses set proxy on configuration' do
-      expect(RestClient.proxy).not_to eq('http://config_proxy.host.com:1234')
+      expect(RestClient.proxy).not_to eq('http://config-proxy.host.com:1234')
 
-      ENV['http_proxy'] = 'http://http_proxy.host.com:1234'
+      ENV['http_proxy'] = 'http://http-proxy.host.com:1234'
       Object.send :remove_const, :Bitly
       load './lib/ruby-bitly.rb'
-      Bitly.proxy = 'http://config_proxy.host.com:1234'
+      Bitly.proxy = 'http://config-proxy.host.com:1234'
 
-      expect(RestClient.proxy).to eq('http://config_proxy.host.com:1234')
+      expect(RestClient.proxy).to eq('http://config-proxy.host.com:1234')
     end
   end
 
