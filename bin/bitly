@@ -128,10 +128,10 @@ class App
     end
 
     def process_command
-      return Bitly.shorten(arguments.first, options.login, options.key).url if options.shorten
-      return Bitly.expand(arguments.first, options.login, options.key).long_url if options.expand
-      return Bitly.get_clicks(arguments.first, options.login, options.key).user_clicks.to_s if options.user_clicks
-      return Bitly.get_clicks(arguments.first, options.login, options.key).global_clicks.to_s if options.global_clicks
+      return Bitly.shorten(:long_url => arguments.first, :login => options.login, :api_key => options.key).url if options.shorten
+      return Bitly.expand(:short_url => arguments.first, :login => options.login, :api_key => options.key).long_url if options.expand
+      return Bitly.get_clicks(:short_url => arguments.first, :login => options.login, :api_key => options.key).user_clicks.to_s if options.user_clicks
+      return Bitly.get_clicks(:short_url => arguments.first, :login => options.login, :api_key => options.key).global_clicks.to_s if options.global_clicks
     end
 end
 
