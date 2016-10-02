@@ -7,10 +7,10 @@
   require 'ruby-bitly'
 
   # old way (deprecated)
-  bitly = Bitly.shorten("https://dx7.github.io", "login-here", "key-here")
+  bitly = Bitly.shorten("https://dx7.github.io/", "login-here", "key-here")
 
   # new way
-  bitly = Bitly.shorten(long_url: "https://dx7.github.io", login: "login-here", api_key: "key-here")
+  bitly = Bitly.shorten(long_url: "https://dx7.github.io/", login: "login-here", api_key: "key-here")
 
   bitly.url #=> "http://bit.ly/2dAjjfo"
 
