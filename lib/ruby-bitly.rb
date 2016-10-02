@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 require 'yaml'
-require 'restclient'
+require 'rest-client'
 require 'json'
 require 'ostruct'
 
