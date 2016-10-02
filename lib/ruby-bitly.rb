@@ -12,11 +12,17 @@ class Bitly < OpenStruct
   RestClient.proxy = ENV['http_proxy']
 
   class << self
-    attr_accessor :login, :key
+    attr_accessor :login, :api_key
     attr_writer :use_ssl
+    alias :key :api_key
+    alias :key= :api_key=
 
     def use_ssl
       instance_variable_defined?(:@use_ssl) ? @use_ssl : true
+    end
+
+    def config
+      yield self
     end
 
     # Old API:
