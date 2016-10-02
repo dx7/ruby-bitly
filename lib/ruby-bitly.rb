@@ -14,7 +14,7 @@ class Bitly < OpenStruct
 
     # Old API:
     #
-    # shorten(new_long_url, login = self.login, key = self.key)
+    # shorten(long_url, login = self.login, key = self.key)
     #
     # New API:
     #
@@ -26,16 +26,16 @@ class Bitly < OpenStruct
     # :login
     # :api_key
     # :domain
-    def shorten(new_long_url, login = self.login, key = self.key)
-      if new_long_url.is_a?(Hash)
-        options = new_long_url
-        new_long_url = options[:long_url]
+    def shorten(long_url, login = self.login, key = self.key)
+      if long_url.is_a?(Hash)
+        options = long_url
+        long_url = options[:long_url]
         login = options[:login] || self.login
         key = options[:api_key] || self.key
       else
         options = {}
       end
-      params = { :longURL => new_long_url, :login => login, :apiKey => key }
+      params = { :longURL => long_url, :login => login, :apiKey => key }
       if options[:domain]
         params[:domain] = options[:domain]
       end
