@@ -12,18 +12,20 @@
   Set global configuration if you want:
 
   Bitly.config do |c|
-    c.login = 'login-here'
+    c.login   = 'login-here'
     c.api_key = 'key-here'
-    c.key = 'key-here' # deprecated
+    c.key     = 'key-here' # deprecated: use api_key instead
     c.use_ssl = false # read more below
+    c.proxy   = 'http://localhost:8888' # read more below
   end
 
   Or set them individualy:
 
-  Bitly.login = 'login-here'
+  Bitly.login   = 'login-here'
   Bitly.api_key = 'key-here'
-  Bitly.key = 'key-here' # deprecated
-  Bitly.use_ssl = false # default: true
+  Bitly.key     = 'key-here' # deprecated: use api_key instead
+  Bitly.use_ssl = false # read more below
+  Bitly.proxy   = 'http://localhost:8888' # read more below
 
   Or set them on methods if you prefer (see it below).
 

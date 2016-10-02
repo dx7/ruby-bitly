@@ -21,6 +21,14 @@ class Bitly < OpenStruct
       instance_variable_defined?(:@use_ssl) ? @use_ssl : true
     end
 
+    def proxy=(addr)
+      RestClient.proxy = addr
+    end
+
+    def proxy
+      RestClient.proxy
+    end
+
     def config
       yield self
     end
