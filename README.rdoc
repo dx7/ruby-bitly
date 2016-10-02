@@ -66,6 +66,12 @@
   All calls will use the proxy specified by environment variable "http_proxy".
 
 
+== SSL
+  All calls will use SSL by default. If you want to disable:
+
+  Bitly.use_ssl = false
+
+
 == Command Line
   Usage
     bitly [options] url

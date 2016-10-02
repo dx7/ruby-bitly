@@ -1,6 +1,7 @@
-# up next
+# 0.2.0
 
 - Add http_proxy support
+- Add ssl support by default
 
 # 0.1.7
 

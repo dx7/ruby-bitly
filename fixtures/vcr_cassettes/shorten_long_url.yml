@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://api.bitly.com/v3/shorten
+    uri: https://api-ssl.bitly.com/v3/shorten
     body:
       encoding: UTF-8
       string: longURL=http%3A%2F%2Fgoogle.com&login=my-login&apiKey=my-api-key

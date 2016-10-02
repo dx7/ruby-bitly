@@ -7,11 +7,17 @@ require 'ostruct'
 class Bitly < OpenStruct
 
   REST_API_URL = "http://api.bitly.com"
+  REST_API_URL_SSL = "https://api-ssl.bitly.com"
   ACTION_PATH = { :shorten => '/v3/shorten', :expand => '/v3/expand', :clicks => '/v3/clicks' }
   RestClient.proxy = ENV['http_proxy']
 
   class << self
     attr_accessor :login, :key
+    attr_writer :use_ssl
+
+    def use_ssl
+      instance_variable_defined?(:@use_ssl) ? @use_ssl : true
+    end
 
     # Old API:
     #
@@ -43,7 +49,7 @@ class Bitly < OpenStruct
         params[:domain] = options[:domain]
       end
 
-      response = JSON.parse RestClient.post(REST_API_URL + ACTION_PATH[:shorten], params)
+      response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:shorten], params)
       response.delete("data") if response["data"].empty?
 
       bitly = new response["data"]
@@ -78,7 +84,7 @@ class Bitly < OpenStruct
         options = {}
       end
 
-      response = JSON.parse RestClient.post(REST_API_URL + ACTION_PATH[:expand], { :shortURL => short_url, :login => login, :apiKey => key })
+      response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:expand], { :shortURL => short_url, :login => login, :apiKey => key })
 
       bitly = new(response["data"]["expand"].first)
       bitly.status_code = response["status_code"]
@@ -111,7 +117,7 @@ class Bitly < OpenStruct
         options = {}
       end
 
-      response = JSON.parse RestClient.get("#{REST_API_URL}#{ACTION_PATH[:clicks]}?login=#{login}&apiKey=#{key}&shortUrl=#{short_url}")
+      response = JSON.parse RestClient.get("#{rest_api_url}#{ACTION_PATH[:clicks]}?login=#{login}&apiKey=#{key}&shortUrl=#{short_url}")
 
       bitly = new(response["data"]["clicks"].first)
       bitly.status_code = response["status_code"]
@@ -119,5 +125,11 @@ class Bitly < OpenStruct
 
       bitly
     end
+
+    private
+
+      def rest_api_url
+        use_ssl ? REST_API_URL_SSL : REST_API_URL
+      end
   end
 end

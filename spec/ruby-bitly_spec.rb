@@ -1,11 +1,10 @@
 # -*- encoding: utf-8 -*-
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
-require 'byebug'
 
 describe "RubyBitly" do
 
-  let(:login) { ENV['RUBY_BITLY_LOGIN'] || 'my-login' }
-  let(:key) { ENV['RUBY_BITLY_APIKEY'] || 'my-api-key' }
+  let(:login) { RSpec::RUBY_BITLY_LOGIN }
+  let(:key) { RSpec::RUBY_BITLY_APIKEY }
 
   it "Shorten long url using old API" do
     response = VCR.use_cassette('shorten_long_url') do
@@ -129,6 +128,19 @@ describe "RubyBitly" do
       load './lib/ruby-bitly.rb'
 
       expect(RestClient.proxy).to eq('http://proxy.host.com:1234')
+    end
+  end
+
+  describe "ssl" do
+    it "do not use ssl if it is disabled" do
+      Bitly.use_ssl = false
+
+      bitly = VCR.use_cassette('get_clicks_by_short_url_without_ssl') do
+        Bitly.get_clicks(:short_url => "http://bit.ly/xlii42", :login => login, :api_key => key)
+      end
+
+      expect(bitly.status_txt).to eq("OK")
+      expect(bitly.status_code).to eq(200)
     end
   end
 end
