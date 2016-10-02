@@ -58,9 +58,21 @@ describe "RubyBitly" do
     expect(response.status_code).to eq(500)
   end
 
-  it "Expand a short url to it long url" do
+  it "Expand a short url to it long url using old API" do
     response = VCR.use_cassette('expand_a_short_url_to_it_long_url') do
       Bitly.expand("http://bit.ly/bcvNe5", @login, @key)
+    end
+
+    expect(response.status_txt).to eq("OK")
+    expect(response.status_code).to eq(200)
+    expect(response.long_url).to eq("http://google.com")
+    expect(response.short_url).to eq("http://bit.ly/bcvNe5")
+    expect(response.user_hash).to eq("bcvNe5")
+  end
+
+  it "Expand a short url to it long url using options API" do
+    response = VCR.use_cassette('expand_a_short_url_to_it_long_url') do
+      Bitly.expand({ :short_url => "http://bit.ly/bcvNe5", :login => @login, :api_key => @key })
     end
 
     expect(response.status_txt).to eq("OK")
@@ -82,9 +94,23 @@ describe "RubyBitly" do
   end
 
 
-  it "Get clicks by short_url" do
+  it "Get clicks by short_url using old API" do
     bitly = VCR.use_cassette('get_clicks_by_short_url') do
       Bitly.get_clicks("http://bit.ly/xlii42", @login, @key)
+    end
+
+    expect(bitly.status_txt).to eq("OK")
+    expect(bitly.status_code).to eq(200)
+    expect(bitly.global_clicks).to be_an_instance_of Fixnum
+    expect(bitly.user_clicks).to be_an_instance_of Fixnum
+    expect(bitly.short_url).to eq("http://bit.ly/xlii42")
+    expect(bitly.global_hash).to eq("cunZEP")
+    expect(bitly.user_hash).to eq("cT1Izu")
+  end
+
+  it "Get clicks by short_url using options API" do
+    bitly = VCR.use_cassette('get_clicks_by_short_url') do
+      Bitly.get_clicks(:short_url => "http://bit.ly/xlii42", :login => @login, :api_key => @key)
     end
 
     expect(bitly.status_txt).to eq("OK")
