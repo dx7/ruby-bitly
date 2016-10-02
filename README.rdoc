@@ -62,7 +62,11 @@
     :status_txt: OK
 
 
-== Command Line Examples
+== Proxy
+  All calls will use the proxy specified by environment variable "http_proxy".
+
+
+== Command Line
   Usage
     bitly [options] url
 
@@ -93,7 +97,7 @@
     -V, --verbose        Verbose output
 
 
-=== Authentication
+== Authentication
   bit.ly API requires authentication credentials.
 
   You need a free bit.ly user account and apiKey. Signup at: http://bit.ly/a/sign_up

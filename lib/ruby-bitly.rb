@@ -8,6 +8,7 @@ class Bitly < OpenStruct
 
   REST_API_URL = "http://api.bit.ly"
   ACTION_PATH = { :shorten => '/v3/shorten', :expand => '/v3/expand', :clicks => '/v3/clicks' }
+  RestClient.proxy = ENV['http_proxy']
 
   class << self
     attr_accessor :login, :key

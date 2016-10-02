@@ -119,4 +119,16 @@ describe "RubyBitly" do
     expect(bitly.global_hash).to eq("cunZEP")
     expect(bitly.user_hash).to eq("cT1Izu")
   end
+
+  describe "proxy" do
+    it "uses proxy" do
+      expect(RestClient.proxy).not_to eq('http://proxy.host.com:1234')
+
+      ENV['http_proxy'] = 'http://proxy.host.com:1234'
+      Object.send :remove_const, :Bitly
+      load './lib/ruby-bitly.rb'
+
+      expect(RestClient.proxy).to eq('http://proxy.host.com:1234')
+    end
+  end
 end
