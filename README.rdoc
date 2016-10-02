@@ -2,10 +2,15 @@
 
 {<img src="https://codeclimate.com/github/dx7/ruby-bitly/badges/gpa.svg" />}[https://codeclimate.com/github/dx7/ruby-bitly]
 
-== Examples
+
+== Shorten
   require 'ruby-bitly'
 
-  bitly = Bitly.shorten("http://dx7.github.io", "login-here", "key-here")
+  # old way (deprecated)
+  bitly = Bitly.shorten("https://dx7.github.io", "login-here", "key-here")
+
+  # new way
+  bitly = Bitly.shorten(long_url: "https://dx7.github.io", login: "login-here", api_key: "key-here")
 
   bitly.url #=> "http://bit.ly/2dAjjfo"
 
@@ -18,6 +23,44 @@
     :hash_path: 2dAjjfo
     :status_code: 200
     :status_txt: OK
+
+
+== Expand
+  require 'ruby-bitly'
+
+  # old way (deprecated)
+  bitly = Bitly.expand("http://bit.ly/2dAjjfo", "login-here", "key-here")
+
+  # new way
+  bitly = Bitly.expand(short_url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "key-here")
+
+  y bitly
+    :short_url: http://bit.ly/2dAjjfo
+    :long_url: https://dx7.github.io/
+    :user_hash: 2dAjjfo
+    :global_hash: 2dAkyet
+    :status_code: 200
+    :status_txt: OK
+
+
+== Get Clicks
+  require 'ruby-bitly'
+
+  # old way (deprecated)
+  bitly = Bitly.get_clicks("http://bit.ly/2dAjjfo", "login-here", "key-here")
+
+  # new way
+  bitly = Bitly.get_clicks(short_url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "key-here")
+
+  y bitly
+    :short_url: https://bit.ly/2dAjjfo
+    :global_hash: 2dAkyet
+    :user_clicks: 0
+    :user_hash: 2dAjjfo
+    :global_clicks: 0
+    :status_code: 200
+    :status_txt: OK
+
 
 == Command Line Examples
   Usage
@@ -49,6 +92,7 @@
     -q, --quiet          Output as little as possible, overrides verbose
     -V, --verbose        Verbose output
 
+
 === Authentication
   bit.ly API requires authentication credentials.
 
@@ -62,8 +106,10 @@
     login: <username>
     key: <key-here>
 
+
 == Author
     dx7 ~ dx7(a)protonmail.ch
+
 
 == Copyright
     Copyright (c) 2010 dx7. Licensed under the MIT License:
