@@ -54,6 +54,19 @@ class Bitly < OpenStruct
       bitly
     end
 
+    # Old API:
+    #
+    # expand(short_url, login = self.login, key = self.key)
+    #
+    # New API:
+    #
+    # expand(options)
+    #
+    # Options can have:
+    #
+    # :long_url
+    # :login
+    # :api_key
     def expand(short_url, login = self.login, key = self.key)
       if short_url.is_a?(Hash)
         options = short_url
@@ -74,6 +87,19 @@ class Bitly < OpenStruct
       bitly
     end
 
+    # Old API:
+    #
+    # get_clicks(short_url, login = self.login, key = self.key)
+    #
+    # New API:
+    #
+    # get_clicks(options)
+    #
+    # Options can have:
+    #
+    # :long_url
+    # :login
+    # :api_key
     def get_clicks(short_url, login = self.login, key = self.key)
       if short_url.is_a?(Hash)
         options = short_url
