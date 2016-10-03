@@ -1,7 +1,9 @@
 # 0.2.0
 
-- Add http_proxy support
+- Add http_proxy support by default
+- Add proxy configuration support
 - Add ssl support by default
+- Add global config support
 
 # 0.1.7
 
