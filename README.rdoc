@@ -9,7 +9,7 @@
 
   require 'ruby-bitly'
 
-  Set global configuration if you want:
+  Set global configuration:
 
   Bitly.config do |c|
     c.login   = 'login-here'
@@ -105,11 +105,15 @@
 
 
 == Proxy
-  All calls will use the proxy specified by environment variable "http_proxy".
+  All calls will use the proxy specified by environment variable "http_proxy" by default.
+
+  You can set the proxy directly if you prefer:
+
+  Bitly.proxy = 'http://localhost:8888'
 
 
 == SSL
-  All calls will use SSL by default. If you want to disable:
+  All calls will use SSL by default. You can disable it:
 
   Bitly.use_ssl = false
 
