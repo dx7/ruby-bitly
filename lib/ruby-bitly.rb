@@ -3,6 +3,7 @@ require 'yaml'
 require 'rest-client'
 require 'json'
 require 'ostruct'
+require 'ruby-bitly/version'
 
 class Bitly < OpenStruct
 
