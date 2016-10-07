@@ -74,8 +74,9 @@ class App
       opts.on('-u', '--user-clicks')   { options.user_clicks = true; options.message = 'User clicks:' }
       opts.on('-g', '--global-clicks') { options.global_clicks = true; options.message = 'Global clicks:' }
 
-      opts.on('-l', '--login LOGIN')  { |login| options.login = login }
-      opts.on('-k', '--key KEY')      { |key| options.key = key }
+      opts.on('-l', '--login LOGIN')   { |login| options.login = login }
+      opts.on('-k', '--key KEY')       { |key| options.key = key }
+      opts.on('-d', '--domain DOMAIN') { |domain| options.domain = domain }
 
       opts.on('-v', '--version')    { output_version ; exit 0 }
       opts.on('-h', '--help')       { output_help }
@@ -128,6 +129,7 @@ class App
     end
 
     def process_command
+      return Bitly.shorten(:long_url => arguments.first, :login => options.login, :api_key => options.key, :domain => options.domain).url if options.shorten && options.domain
       return Bitly.shorten(:long_url => arguments.first, :login => options.login, :api_key => options.key).url if options.shorten
       return Bitly.expand(:short_url => arguments.first, :login => options.login, :api_key => options.key).long_url if options.expand
       return Bitly.get_clicks(:short_url => arguments.first, :login => options.login, :api_key => options.key).user_clicks.to_s if options.user_clicks
