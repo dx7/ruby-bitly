@@ -95,8 +95,6 @@ class Bitly < OpenStruct
         short_url = options[:short_url]
         login = options[:login] || self.login
         key = options[:api_key] || self.key
-      else
-        options = {}
       end
 
       response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:expand], { :shortURL => short_url, :login => login, :apiKey => key })
@@ -128,8 +126,6 @@ class Bitly < OpenStruct
         short_url = options[:short_url]
         login = options[:login] || self.login
         key = options[:api_key] || self.key
-      else
-        options = {}
       end
 
       response = JSON.parse RestClient.get("#{rest_api_url}#{ACTION_PATH[:clicks]}?login=#{login}&apiKey=#{key}&shortUrl=#{short_url}")
