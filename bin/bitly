@@ -31,20 +31,12 @@ class App
       result = process_command
 
       puts "#{options.message} #{result}".strip
-
-      copy_to_clipboard(result)
     else
       output_help("ERROR: Invalid options", 'examples')
     end
   end
 
   protected
-
-    def copy_to_clipboard(value)
-      unless value.nil?
-        system "printf '#{value.strip}' 2> /dev/null | pbcopy 2> /dev/null" if RUBY_PLATFORM[/darwin/]
-      end
-    end
 
     def load_account_data
       begin
