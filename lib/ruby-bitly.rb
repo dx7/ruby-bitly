@@ -49,7 +49,8 @@ class Bitly < OpenStruct
     # :api_key
     # :domain
     def shorten(long_url, login = self.login, api_key = self.api_key)
-      options = ensure_options(url: long_url, login: login, api_key: api_key).select { |k,v| [:longURL, :domain, :login, :apiKey].include?(k) }
+      options = ensure_options(url: long_url, login: login, api_key: api_key)
+      options.select! { |k,v| [:longURL, :domain, :login, :apiKey].include?(k) }
 
       response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:shorten], options)
       response.delete("data") if response["data"].empty?
@@ -77,7 +78,9 @@ class Bitly < OpenStruct
     # :login
     # :api_key
     def expand(short_url, login = self.login, api_key = self.api_key)
-      options = ensure_options(url: short_url, login: login, api_key: api_key).select { |k,v| [:shortURL, :login, :apiKey].include?(k) }
+      options = ensure_options(url: short_url, login: login, api_key: api_key)
+      options.select! { |k,v| [:shortURL, :login, :apiKey].include?(k) }
+
       response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:expand], options)
 
       bitly = new(response["data"]["expand"].first)
@@ -103,8 +106,10 @@ class Bitly < OpenStruct
     # :api_key
     def get_clicks(short_url, login = self.login, api_key = self.api_key)
       options = ensure_options(url: short_url, login: login, api_key: api_key)
+      options.select! { |k,v| [:shortURL, :login, :apiKey].include?(k) }
+      options[:shortUrl] = options.delete(:shortURL)
 
-      response = JSON.parse RestClient.get("#{rest_api_url}#{ACTION_PATH[:clicks]}?login=#{options[:login]}&apiKey=#{options[:apiKey]}&shortUrl=#{options[:shortURL]}")
+      response = JSON.parse RestClient.get("#{rest_api_url}#{ACTION_PATH[:clicks]}", params: options)
 
       bitly = new(response["data"]["clicks"].first)
       bitly.status_code = response["status_code"]
