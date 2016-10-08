@@ -36,7 +36,7 @@ class Bitly < OpenStruct
 
     # Old API:
     #
-    # shorten(long_url, login = self.login, key = self.key)
+    # shorten(long_url, login = self.login, api_key = self.api_key)
     #
     # New API:
     #
@@ -48,23 +48,10 @@ class Bitly < OpenStruct
     # :login
     # :api_key
     # :domain
-    def shorten(long_url, login = self.login, key = self.key)
-      if long_url.is_a?(Hash)
-        options = long_url
-        long_url = options[:long_url]
-        login = options[:login] || self.login
-        key = options[:api_key] || self.key
-      else
-        options = {}
-      end
+    def shorten(long_url, login = self.login, api_key = self.api_key)
+      options = ensure_options(url: long_url, login: login, api_key: api_key).select { |k,v| [:longURL, :domain, :login, :apiKey].include?(k) }
 
-      params = { :longURL => long_url, :login => login, :apiKey => key }
-
-      if options[:domain]
-        params[:domain] = options[:domain]
-      end
-
-      response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:shorten], params)
+      response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:shorten], options)
       response.delete("data") if response["data"].empty?
 
       bitly = new response["data"]
@@ -78,7 +65,7 @@ class Bitly < OpenStruct
 
     # Old API:
     #
-    # expand(short_url, login = self.login, key = self.key)
+    # expand(short_url, login = self.login, api_key = self.api_key)
     #
     # New API:
     #
@@ -89,15 +76,9 @@ class Bitly < OpenStruct
     # :long_url
     # :login
     # :api_key
-    def expand(short_url, login = self.login, key = self.key)
-      if short_url.is_a?(Hash)
-        options = short_url
-        short_url = options[:short_url]
-        login = options[:login] || self.login
-        key = options[:api_key] || self.key
-      end
-
-      response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:expand], { :shortURL => short_url, :login => login, :apiKey => key })
+    def expand(short_url, login = self.login, api_key = self.api_key)
+      options = ensure_options(url: short_url, login: login, api_key: api_key).select { |k,v| [:shortURL, :login, :apiKey].include?(k) }
+      response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:expand], options)
 
       bitly = new(response["data"]["expand"].first)
       bitly.status_code = response["status_code"]
@@ -109,7 +90,7 @@ class Bitly < OpenStruct
 
     # Old API:
     #
-    # get_clicks(short_url, login = self.login, key = self.key)
+    # get_clicks(short_url, login = self.login, api_key = self.api_key)
     #
     # New API:
     #
@@ -120,15 +101,10 @@ class Bitly < OpenStruct
     # :long_url
     # :login
     # :api_key
-    def get_clicks(short_url, login = self.login, key = self.key)
-      if short_url.is_a?(Hash)
-        options = short_url
-        short_url = options[:short_url]
-        login = options[:login] || self.login
-        key = options[:api_key] || self.key
-      end
+    def get_clicks(short_url, login = self.login, api_key = self.api_key)
+      options = ensure_options(url: short_url, login: login, api_key: api_key)
 
-      response = JSON.parse RestClient.get("#{rest_api_url}#{ACTION_PATH[:clicks]}?login=#{login}&apiKey=#{key}&shortUrl=#{short_url}")
+      response = JSON.parse RestClient.get("#{rest_api_url}#{ACTION_PATH[:clicks]}?login=#{options[:login]}&apiKey=#{options[:apiKey]}&shortUrl=#{options[:shortURL]}")
 
       bitly = new(response["data"]["clicks"].first)
       bitly.status_code = response["status_code"]
@@ -138,6 +114,20 @@ class Bitly < OpenStruct
     end
 
     private
+
+      def ensure_options(options)
+        response = {}
+
+        options = options[:url] if options[:url].is_a?(Hash)
+
+        response[:shortURL] = options[:short_url] || options[:url]
+        response[:longURL] = options[:long_url] || options[:url]
+        response[:login] = options[:login] || self.login
+        response[:apiKey] = options[:api_key] || self.api_key
+        response[:domain] = options[:domain]
+
+        response.reject { |k, v| v.nil? }
+      end
 
       def rest_api_url
         use_ssl ? REST_API_URL_SSL : REST_API_URL

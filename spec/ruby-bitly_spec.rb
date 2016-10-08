@@ -4,7 +4,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe 'RubyBitly' do
 
   let(:login) { RSpec::RUBY_BITLY_LOGIN }
-  let(:key) { RSpec::RUBY_BITLY_APIKEY }
+  let(:api_key) { RSpec::RUBY_BITLY_APIKEY }
 
   describe 'config' do
     it 'set variable login' do
@@ -12,7 +12,7 @@ describe 'RubyBitly' do
       expect(Bitly.login).to eq('login-custom')
     end
 
-    it 'set variables key' do
+    it 'set variables api_key' do
       Bitly.config { |c| c.api_key = 'key-custom' }
       expect(Bitly.api_key).to eq('key-custom')
     end
@@ -27,12 +27,12 @@ describe 'RubyBitly' do
   describe 'shorten' do
     context 'using local config' do
       before do
-        Bitly.config { |c| c.login = 'invalid login'; c.api_key = 'invalid key' }
+        Bitly.config { |c| c.login = 'invalid login'; c.api_key = 'invalid api_key' }
       end
 
       it 'shorten long url using old API' do
         response = VCR.use_cassette('shorten_long_url') do
-          Bitly.shorten('http://google.com', login, key)
+          Bitly.shorten('http://google.com', login, api_key)
         end
 
         expect(response.status_txt).to eq('OK')
@@ -45,7 +45,7 @@ describe 'RubyBitly' do
 
       it 'shorten long url using new API' do
         response = VCR.use_cassette('shorten_long_url') do
-          Bitly.shorten(:long_url => 'http://google.com', :login => login, :api_key => key)
+          Bitly.shorten(:long_url => 'http://google.com', :login => login, :api_key => api_key)
         end
 
         expect(response.status_txt).to eq('OK')
@@ -58,7 +58,7 @@ describe 'RubyBitly' do
 
       it 'shorten long url with a preferred domain' do
         response = VCR.use_cassette('shorten_long_url_with_preferred_domain') do
-          Bitly.shorten(:long_url => 'http://google.com', :domain => 'j.mp', :login => login, :api_key => key)
+          Bitly.shorten(:long_url => 'http://google.com', :domain => 'j.mp', :login => login, :api_key => api_key)
         end
 
         expect(response.status_txt).to eq('OK')
@@ -71,7 +71,7 @@ describe 'RubyBitly' do
 
       it 'shorten bitly url' do
         response = VCR.use_cassette('shorten_bitly_url') do
-          Bitly.shorten('http://bit.ly/bcvNe5', login, key)
+          Bitly.shorten('http://bit.ly/bcvNe5', login, api_key)
         end
 
         expect(response.status_txt).to eq('ALREADY_A_BITLY_LINK')
@@ -81,7 +81,7 @@ describe 'RubyBitly' do
 
     context 'using global config' do
       before do
-        Bitly.config { |c| c.login = login; c.api_key = key }
+        Bitly.config { |c| c.login = login; c.api_key = api_key }
       end
 
       it 'shorten long url using old API' do
@@ -115,12 +115,12 @@ describe 'RubyBitly' do
   describe 'expand' do
     context 'using local config' do
       before do
-        Bitly.config { |c| c.login = 'invalid login'; c.api_key = 'invalid key' }
+        Bitly.config { |c| c.login = 'invalid login'; c.api_key = 'invalid api_key' }
       end
 
       it 'expand a short url to its long url old API' do
         response = VCR.use_cassette('expand_a_short_url_to_it_long_url') do
-          Bitly.expand('http://bit.ly/bcvNe5', login, key)
+          Bitly.expand('http://bit.ly/bcvNe5', login, api_key)
         end
 
         expect(response.status_txt).to eq('OK')
@@ -132,7 +132,7 @@ describe 'RubyBitly' do
 
       it 'expand a short url to its long url' do
         response = VCR.use_cassette('expand_a_short_url_to_it_long_url') do
-          Bitly.expand({ :short_url => 'http://bit.ly/bcvNe5', :login => login, :api_key => key })
+          Bitly.expand({ :short_url => 'http://bit.ly/bcvNe5', :login => login, :api_key => api_key })
         end
 
         expect(response.status_txt).to eq('OK')
@@ -144,7 +144,7 @@ describe 'RubyBitly' do
 
       it 'expand a long url should result an error' do
         response = VCR.use_cassette('expand_a_long_url_should_result_an_error') do
-          Bitly.expand('http://google.com', login, key)
+          Bitly.expand('http://google.com', login, api_key)
         end
 
         expect(response.status_txt).to eq('OK')
@@ -156,7 +156,7 @@ describe 'RubyBitly' do
 
     context 'using global config' do
       before do
-        Bitly.config { |c| c.login = login; c.api_key = key }
+        Bitly.config { |c| c.login = login; c.api_key = api_key }
       end
 
       it 'expand a short url to its long url old API' do
@@ -189,12 +189,12 @@ describe 'RubyBitly' do
   describe 'get clicks' do
     context 'using local config' do
       before do
-        Bitly.config { |c| c.login = 'invalid login'; c.api_key = 'invalid key' }
+        Bitly.config { |c| c.login = 'invalid login'; c.api_key = 'invalid api_key' }
       end
 
       it 'get clicks by short_url using old API' do
         bitly = VCR.use_cassette('get_clicks_by_short_url') do
-          Bitly.get_clicks('http://bit.ly/xlii42', login, key)
+          Bitly.get_clicks('http://bit.ly/xlii42', login, api_key)
         end
 
         expect(bitly.status_txt).to eq('OK')
@@ -208,7 +208,7 @@ describe 'RubyBitly' do
 
       it 'get clicks by short_url using options API' do
         bitly = VCR.use_cassette('get_clicks_by_short_url') do
-          Bitly.get_clicks(:short_url => 'http://bit.ly/xlii42', :login => login, :api_key => key)
+          Bitly.get_clicks(:short_url => 'http://bit.ly/xlii42', :login => login, :api_key => api_key)
         end
 
         expect(bitly.status_txt).to eq('OK')
@@ -223,7 +223,7 @@ describe 'RubyBitly' do
 
     context 'using global config' do
       before do
-        Bitly.config { |c| c.login = login; c.api_key = key }
+        Bitly.config { |c| c.login = login; c.api_key = api_key }
       end
 
       it 'get clicks by short_url using old API' do
@@ -284,7 +284,7 @@ describe 'RubyBitly' do
       Bitly.use_ssl = false
 
       bitly = VCR.use_cassette('get_clicks_by_short_url_without_ssl') do
-        Bitly.get_clicks(:short_url => 'http://bit.ly/xlii42', :login => login, :api_key => key)
+        Bitly.get_clicks(:short_url => 'http://bit.ly/xlii42', :login => login, :api_key => api_key)
       end
 
       expect(bitly.status_txt).to eq('OK')
