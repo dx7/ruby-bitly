@@ -121,16 +121,14 @@ class Bitly < OpenStruct
     private
 
       def ensure_options(options)
-        response = {}
-
         options = options[:url] if options[:url].is_a?(Hash)
 
+        response = {}
         response[:shortURL] = options[:short_url] || options[:url]
         response[:longURL] = options[:long_url] || options[:url]
         response[:login] = options[:login] || self.login
         response[:apiKey] = options[:api_key] || self.api_key
         response[:domain] = options[:domain]
-
         response.reject { |_k,v| v.nil? }
       end
 
