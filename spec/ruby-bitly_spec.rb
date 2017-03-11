@@ -199,8 +199,8 @@ describe 'RubyBitly' do
 
         expect(bitly.status_txt).to eq('OK')
         expect(bitly.status_code).to eq(200)
-        expect(bitly.global_clicks).to be_an_instance_of Fixnum
-        expect(bitly.user_clicks).to be_an_instance_of Fixnum
+        expect(bitly.global_clicks).to be_an Integer
+        expect(bitly.user_clicks).to be_an Integer
         expect(bitly.short_url).to eq('http://bit.ly/xlii42')
         expect(bitly.global_hash).to eq('cunZEP')
         expect(bitly.user_hash).to eq('cT1Izu')
@@ -213,8 +213,8 @@ describe 'RubyBitly' do
 
         expect(bitly.status_txt).to eq('OK')
         expect(bitly.status_code).to eq(200)
-        expect(bitly.global_clicks).to be_an_instance_of Fixnum
-        expect(bitly.user_clicks).to be_an_instance_of Fixnum
+        expect(bitly.global_clicks).to be_an Integer
+        expect(bitly.user_clicks).to be_an Integer
         expect(bitly.short_url).to eq('http://bit.ly/xlii42')
         expect(bitly.global_hash).to eq('cunZEP')
         expect(bitly.user_hash).to eq('cT1Izu')
@@ -233,8 +233,8 @@ describe 'RubyBitly' do
 
         expect(bitly.status_txt).to eq('OK')
         expect(bitly.status_code).to eq(200)
-        expect(bitly.global_clicks).to be_an_instance_of Fixnum
-        expect(bitly.user_clicks).to be_an_instance_of Fixnum
+        expect(bitly.global_clicks).to be_an Integer
+        expect(bitly.user_clicks).to be_an Integer
         expect(bitly.short_url).to eq('http://bit.ly/xlii42')
         expect(bitly.global_hash).to eq('cunZEP')
         expect(bitly.user_hash).to eq('cT1Izu')
@@ -247,8 +247,8 @@ describe 'RubyBitly' do
 
         expect(bitly.status_txt).to eq('OK')
         expect(bitly.status_code).to eq(200)
-        expect(bitly.global_clicks).to be_an_instance_of Fixnum
-        expect(bitly.user_clicks).to be_an_instance_of Fixnum
+        expect(bitly.global_clicks).to be_an Integer
+        expect(bitly.user_clicks).to be_an Integer
         expect(bitly.short_url).to eq('http://bit.ly/xlii42')
         expect(bitly.global_hash).to eq('cunZEP')
         expect(bitly.user_hash).to eq('cT1Izu')
