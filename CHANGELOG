@@ -1,3 +1,8 @@
+# 0.2.1
+- Add support for ruby 2.4.0
+- Add support for set domain on command line
+- Remove feature 'copy to clipboard' on command line
+
 # 0.2.0
 
 - Add http_proxy support by default
