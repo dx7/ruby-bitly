@@ -38,10 +38,10 @@
   bitly = Bitly.shorten("https://dx7.github.io/", "login-here", "key-here")
 
   # new way
-  bitly = Bitly.shorten(long_url: "https://dx7.github.io/")
+  bitly = Bitly.shorten(url: "https://dx7.github.io/")
 
   # new way setting local configuration
-  bitly = Bitly.shorten(long_url: "https://dx7.github.io/", login: "login-here", api_key: "key-here", domain: "my.do")
+  bitly = Bitly.shorten(url: "https://dx7.github.io/", login: "login-here", api_key: "key-here", domain: "my.do")
 
   # result
   bitly.url #=> "http://bit.ly/2dAjjfo"
@@ -65,10 +65,10 @@
   bitly = Bitly.expand("http://bit.ly/2dAjjfo", "login-here", "key-here")
 
   # new way
-  bitly = Bitly.expand(short_url: "http://bit.ly/2dAjjfo")
+  bitly = Bitly.expand(url: "http://bit.ly/2dAjjfo")
 
   # new way setting local configuration
-  bitly = Bitly.expand(short_url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "key-here")
+  bitly = Bitly.expand(url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "key-here")
 
   # result
   y bitly
@@ -88,10 +88,10 @@
   bitly = Bitly.get_clicks("http://bit.ly/2dAjjfo", "login-here", "key-here")
 
   # new way
-  bitly = Bitly.get_clicks(short_url: "http://bit.ly/2dAjjfo")
+  bitly = Bitly.get_clicks(url: "http://bit.ly/2dAjjfo")
 
   # new way setting local configuration
-  bitly = Bitly.get_clicks(short_url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "key-here")
+  bitly = Bitly.get_clicks(url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "key-here")
 
   # result
   y bitly
