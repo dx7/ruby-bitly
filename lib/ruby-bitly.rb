@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 require 'yaml'
 require 'rest-client'
 require 'json'
