@@ -6,9 +6,9 @@ require 'ruby-bitly/version'
 
 class Bitly < OpenStruct
 
-  REST_API_URL = "http://api.bitly.com"
-  REST_API_URL_SSL = "https://api-ssl.bitly.com"
-  ACTION_PATH = { :shorten => '/v3/shorten', :expand => '/v3/expand', :clicks => '/v3/clicks' }
+  REST_API_URL = 'http://api.bitly.com'
+  REST_API_URL_SSL = 'https://api-ssl.bitly.com'
+  ACTION_PATH = { shorten: '/v3/shorten', expand: '/v3/expand', clicks: '/v3/clicks' }
   RestClient.proxy = ENV['http_proxy']
 
   class << self

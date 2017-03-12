@@ -13,106 +13,52 @@ class App
 
   attr_accessor :arguments, :options
 
-  def initialize(arguments, stdin = nil)
-    self.options = OpenStruct.new
+  def initialize(arguments)
     self.arguments = arguments
-    @stdin = stdin
+    self.options = OpenStruct.new
   end
 
   def run
+    load_account_data
     process_options
-
-    if arguments_valid?
-      output_options if options.verbose
-
-      post_process_options and process_arguments
-
-      result = process_command
-
-      puts "#{options.message} #{result}".strip
-    else
-      output_help("ERROR: Invalid options", 'examples')
-    end
+    puts process_command
   end
 
   protected
 
     def load_account_data
-      begin
-        account_data = YAML.load(File.read(ACCOUNT_FILE_PATH))
-      rescue
-        output_help("ERROR: Crendentials not found", 'authentication')
-      end
-
-      if account_data
-        options.login = account_data["login"]
-        options.key = account_data["key"]
-      end
-    end
-
-    def default_options
-      options.verbose = false
-      options.quiet = false
+      account_data = YAML.load(File.read(ACCOUNT_FILE_PATH)) rescue {}
+      options.login = account_data['login']
+      options.key = account_data['key']
+    rescue
     end
 
     def process_options
-      default_options
+      OptionParser.new do |opts|
+        opts.banner = "Usage: bitly [options] URL"
 
-      opts = OptionParser.new
-
-      opts.on('-s', '--shorten')       { options.shorten = true; options.message = 'Short url:' }
-      opts.on('-e', '--expand')        { options.expand = true; options.message = 'Original url:' }
-      opts.on('-u', '--user-clicks')   { options.user_clicks = true; options.message = 'User clicks:' }
-      opts.on('-g', '--global-clicks') { options.global_clicks = true; options.message = 'Global clicks:' }
-
-      opts.on('-l', '--login LOGIN')   { |login| options.login = login }
-      opts.on('-k', '--key KEY')       { |key| options.key = key }
-      opts.on('-d', '--domain DOMAIN') { |domain| options.domain = domain }
-
-      opts.on('-v', '--version')    { output_version ; exit 0 }
-      opts.on('-h', '--help')       { output_help }
-      opts.on('-V', '--verbose')    { options.verbose = true }
-      opts.on('-q', '--quiet')      { options.quiet = true; options.verbose = false }
-
-      opts.parse!(arguments) rescue return false
-    end
-
-    def post_process_options
-      # Bitly API Login / Key
-      load_account_data unless options.login and options.key
-
-      # Default option: --shorten
-      options.shorten = true and options.message = 'Short url:' unless options.expand or options.user_clicks or options.global_clicks
-
-      # Message empty if option quiet exists
-      options.message = '' if options.quiet
-    end
-
-    def output_options
-      puts "Options:\n"
-
-      options.marshal_dump.each do |name, val|
-        puts "  #{name} = #{val}"
-      end
-
-      puts "  URL: #{arguments.first}\n"
-    end
-
-    def arguments_valid?
-      arguments.length == 1
-    end
-
-    def process_arguments
-    end
-
-    def output_help(message = nil, section = "")
-      puts message if message
-
-      File.open(File.join(File.dirname(__FILE__), '..', 'README.rdoc'), "r") do |infile|
-        while (line = infile.gets)
-          puts line
+        opts.on('-l', '--login LOGIN', 'You need a free Bitly login and api key. Sign up here: http://bit.ly/a/sign_up.') do |login|
+          options.login = login
         end
-      end
+
+        opts.on('-k', '--key KEY', 'You can find your api key here: http://bit.ly/a/your_api_key.', ' ') do |key|
+          options.key = key
+        end
+
+        opts.on('-d', '--domain DOMAIN',
+                'The short domain to use: either bit.ly, j.mp, bitly.com or a custom short domain.',
+                'This option will override the default short domain selected in your Bitly account settings.', ' ') do |domain|
+          options.domain = domain
+        end
+
+        opts.on('-s', '--shorten', 'Given a long URL, returns a Bitlink.') { options.command = :shorten }
+        opts.on('-e', '--expand', 'Given a Bitlink, hash or custom path, returns the target (long) URL.') { options.command = :expand }
+        opts.on('-u', '--user-clicks', 'The total count of clicks to this user\'s Bitlink.')   { options.command = :user_clicks }
+        opts.on('-g', '--global-clicks', 'The total count of the corresponding Bitly aggregate hash.', ' ') { options.command = :global_clicks }
+
+        opts.on('-h', '--help', 'Print this help.') { puts opts.help; exit 0 }
+        opts.on('-v', '--version', 'Print version.') { output_version; exit 0 }
+      end.parse!
     end
 
     def output_version
@@ -120,13 +66,19 @@ class App
     end
 
     def process_command
-      return Bitly.shorten(url: arguments.first, login: options.login, api_key: options.key, domain: options.domain).url if options.shorten && options.domain
-      return Bitly.shorten(url: arguments.first, login: options.login, api_key: options.key).url if options.shorten
-      return Bitly.expand(url: arguments.first, login: options.login, api_key: options.key).long_url if options.expand
-      return Bitly.get_clicks(url: arguments.first, login: options.login, api_key: options.key).user_clicks.to_s if options.user_clicks
-      return Bitly.get_clicks(url: arguments.first, login: options.login, api_key: options.key).global_clicks.to_s if options.global_clicks
+      case options.command
+      when :shorten
+        Bitly.shorten(url: arguments.first, login: options.login, api_key: options.key, domain: options.domain).url
+      when :expand
+        Bitly.expand(url: arguments.first, login: options.login, api_key: options.key).long_url
+      when :user_clicks
+        Bitly.get_clicks(url: arguments.first, login: options.login, api_key: options.key).user_clicks.to_s
+      when :global_clicks
+        Bitly.get_clicks(url: arguments.first, login: options.login, api_key: options.key).global_clicks.to_s
+      else
+        "No command given"
+      end
     end
 end
 
-app = App.new(ARGV)
-app.run
+App.new(ARGV).run
