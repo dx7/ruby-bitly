@@ -55,10 +55,9 @@ class Bitly < OpenStruct
       response.delete("data") if response["data"].empty?
 
       bitly = new response["data"]
-
       bitly.hash_path = response["data"]["hash"] if response["status_code"] == 200
-      bitly.status_code = response["status_code"]
-      bitly.status_txt = response["status_txt"]
+      bitly.success = response["status_code"] == 200
+      bitly.error = response['status_txt'] unless bitly.success
 
       bitly
     end
@@ -83,8 +82,7 @@ class Bitly < OpenStruct
       response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:expand], options)
 
       bitly = new(response["data"]["expand"].first)
-      bitly.status_code = response["status_code"]
-      bitly.status_txt = response["status_txt"]
+      bitly.success = response["status_code"] == 200
       bitly.long_url = bitly.error if bitly.error
 
       bitly
@@ -111,8 +109,7 @@ class Bitly < OpenStruct
       response = JSON.parse RestClient.get("#{rest_api_url}#{ACTION_PATH[:clicks]}", params: options)
 
       bitly = new(response["data"]["clicks"].first)
-      bitly.status_code = response["status_code"]
-      bitly.status_txt = response["status_txt"]
+      bitly.success = response["status_code"] == 200
 
       bitly
     end

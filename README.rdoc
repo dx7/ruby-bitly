@@ -53,8 +53,9 @@
     :global_hash: micSj7
     :new_hash: 0
     :hash_path: 2dAjjfo
-    :status_code: 200
+    :success: true
     :status_txt: OK
+    :error: nil
 
 
 == Expand
@@ -76,8 +77,8 @@
     :long_url: https://dx7.github.io/
     :user_hash: 2dAjjfo
     :global_hash: 2dAkyet
-    :status_code: 200
-    :status_txt: OK
+    :success: true
+    :error: nil
 
 
 == Get Clicks
@@ -100,8 +101,16 @@
     :user_clicks: 0
     :user_hash: 2dAjjfo
     :global_clicks: 0
-    :status_code: 200
-    :status_txt: OK
+    :success: true
+    :error: nil
+
+
+== Error handling
+
+  # if something goes wrong you can check
+  y bitly
+    :success: false
+    :error: 'INVALID_LOGIN'
 
 
 == Proxy

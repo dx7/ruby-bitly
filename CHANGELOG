@@ -1,4 +1,10 @@
+# 0.3.0
+
+- Add attributes success and error to a better error handling
+- Remove old attributes status_code and status_txt
+
 # 0.2.1
+
 - Add support for ruby 2.4.0
 - Add support for set domain on command line
 - Remove feature 'copy to clipboard' on command line
