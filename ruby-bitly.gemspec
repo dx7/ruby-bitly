@@ -16,9 +16,10 @@ Gem::Specification.new do |s|
   s.licenses              = ['MIT']
   s.required_ruby_version = '>= 2.0.0'
   s.add_dependency('rest-client', '~> 2.0')
-  s.add_development_dependency('byebug')
   s.add_development_dependency('rake')
-  s.add_development_dependency('rspec', '~> 3.5')
-  s.add_development_dependency('vcr', '~> 3.0')
-  s.add_development_dependency('webmock', '~> 2.1')
+  s.add_development_dependency('rspec')
+  s.add_development_dependency('vcr')
+  s.add_development_dependency('webmock')
+  s.add_development_dependency('public_suffix', '< 3') # it is a webmock dependency. it is neccessary to run tests on ruby 2.0
+  s.add_development_dependency('wwtd')
 end
