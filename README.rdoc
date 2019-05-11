@@ -44,18 +44,12 @@
   bitly = Bitly.shorten(url: "https://dx7.github.io/", login: "login-here", api_key: "key-here", domain: "my.do")
 
   # result
-  bitly.url #=> "http://bit.ly/2dAjjfo"
-
-  y bitly
-    :long_url: http://dx7.github.io/
-    :url: http://bit.ly/2dAjjfo
-    :hash: 2dAjjfo
-    :global_hash: micSj7
-    :new_hash: 0
-    :hash_path: 2dAjjfo
-    :success: true
-    :status_txt: OK
-    :error: nil
+  bitly.url         #=> "http://bit.ly/2dAjjfo"
+  bitly.long_url    #=> "https://dx7.github.io/"
+  bitly.new_hash?   #=> true
+  bitly.global_hash #=> "2dAkyet"
+  bitly.hash_path   #=> "2dAjjfo"
+  bitly.success?    #=> true
 
 
 == Expand
@@ -72,13 +66,11 @@
   bitly = Bitly.expand(url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "key-here")
 
   # result
-  y bitly
-    :short_url: http://bit.ly/2dAjjfo
-    :long_url: https://dx7.github.io/
-    :user_hash: 2dAjjfo
-    :global_hash: 2dAkyet
-    :success: true
-    :error: nil
+  bitly.short_url   #=> "http://bit.ly/2dAjjfo"
+  bitly.long_url    #=> "https://dx7.github.io/"
+  bitly.global_hash #=> "2dAkyet"
+  bitly.user_hash   #=> "2dAjjfo"
+  bitly.success?    #=> true
 
 
 == Get Clicks
@@ -95,22 +87,19 @@
   bitly = Bitly.get_clicks(url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "key-here")
 
   # result
-  y bitly
-    :short_url: https://bit.ly/2dAjjfo
-    :global_hash: 2dAkyet
-    :user_clicks: 0
-    :user_hash: 2dAjjfo
-    :global_clicks: 0
-    :success: true
-    :error: nil
+  bitly.short_url     => "http://bit.ly/2dAjjfo"
+  bitly.user_hash     => "2dAjjfo"
+  bitly.global_hash   => "2dAkyet"
+  bitly.user_clicks   => 0
+  bitly.global_clicks => 1
+  bitly.success?      => true
 
 
 == Error handling
 
   # if something goes wrong you can check
-  y bitly
-    :success: false
-    :error: 'INVALID_LOGIN'
+  bitly.success? #=> false
+  bitly.error    #=> 'INVALID_LOGIN'
 
 
 == Proxy

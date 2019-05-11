@@ -34,9 +34,9 @@ describe 'RubyBitly' do
           Bitly.shorten('http://google.com', login, api_key)
         end
 
-        expect(response.success).to eq(true)
+        expect(response.success?).to eq(true)
         expect(response.error).to eq(nil)
-        expect(response.new_hash).to eq(0)
+        expect(response.new_hash?).to eq(false)
         expect(response.global_hash).not_to be_empty
         expect(response.hash_path.length).not_to eq(0)
         expect(response.url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
@@ -47,9 +47,9 @@ describe 'RubyBitly' do
           Bitly.shorten(:long_url => 'http://google.com', :login => login, :api_key => api_key)
         end
 
-        expect(response.success).to eq(true)
+        expect(response.success?).to eq(true)
         expect(response.error).to eq(nil)
-        expect(response.new_hash).to eq(0)
+        expect(response.new_hash?).to eq(false)
         expect(response.global_hash).not_to be_empty
         expect(response.hash_path.length).not_to eq(0)
         expect(response.url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
@@ -60,10 +60,10 @@ describe 'RubyBitly' do
           Bitly.shorten(:long_url => 'http://google.com', :domain => 'j.mp', :login => login, :api_key => api_key)
         end
 
-        expect(response.success).to eq(true)
+        expect(response.success?).to eq(true)
         expect(response.error).to eq(nil)
         expect(response.error).to eq(nil)
-        expect(response.new_hash).to eq(0)
+        expect(response.new_hash?).to eq(false)
         expect(response.global_hash).not_to be_empty
         expect(response.hash_path.length).not_to eq(0)
         expect(response.url).to match(/^http:\/\/j\.mp\/[A-Za-z0-9]*/)
@@ -74,7 +74,7 @@ describe 'RubyBitly' do
           Bitly.shorten('http://bit.ly/bcvNe5', login, api_key)
         end
 
-        expect(response.success).to eq(false)
+        expect(response.success?).to eq(false)
         expect(response.error).to eq('ALREADY_A_BITLY_LINK')
       end
 
@@ -83,7 +83,7 @@ describe 'RubyBitly' do
           Bitly.shorten('http://bit.ly/bcvNe5', login, api_key)
         end
 
-        expect(response.success).to eq(false)
+        expect(response.success?).to eq(false)
         expect(response.error).to eq('INVALID_LOGIN')
       end
     end
@@ -98,8 +98,8 @@ describe 'RubyBitly' do
           Bitly.shorten('http://google.com')
         end
 
-        expect(response.success).to eq(true)
-        expect(response.new_hash).to eq(0)
+        expect(response.success?).to eq(true)
+        expect(response.new_hash?).to eq(false)
         expect(response.global_hash).not_to be_empty
         expect(response.hash_path.length).not_to eq(0)
         expect(response.url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
@@ -110,8 +110,8 @@ describe 'RubyBitly' do
           Bitly.shorten(:long_url => 'http://google.com')
         end
 
-        expect(response.success).to eq(true)
-        expect(response.new_hash).to eq(0)
+        expect(response.success?).to eq(true)
+        expect(response.new_hash?).to eq(false)
         expect(response.global_hash).not_to be_empty
         expect(response.hash_path.length).not_to eq(0)
         expect(response.url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
@@ -130,7 +130,7 @@ describe 'RubyBitly' do
           Bitly.expand('http://bit.ly/bcvNe5', login, api_key)
         end
 
-        expect(response.success).to eq(true)
+        expect(response.success?).to eq(true)
         expect(response.long_url).to eq('http://google.com')
         expect(response.short_url).to eq('http://bit.ly/bcvNe5')
         expect(response.user_hash).to eq('bcvNe5')
@@ -141,7 +141,7 @@ describe 'RubyBitly' do
           Bitly.expand({ :short_url => 'http://bit.ly/bcvNe5', :login => login, :api_key => api_key })
         end
 
-        expect(response.success).to eq(true)
+        expect(response.success?).to eq(true)
         expect(response.long_url).to eq('http://google.com')
         expect(response.short_url).to eq('http://bit.ly/bcvNe5')
         expect(response.user_hash).to eq('bcvNe5')
@@ -152,7 +152,7 @@ describe 'RubyBitly' do
           Bitly.expand('http://google.com', login, api_key)
         end
 
-        expect(response.success).to eq(true)
+        expect(response.success?).to eq(true)
         expect(response.long_url).to eq('NOT_FOUND')
         expect(response.short_url).to eq('http://google.com')
       end
@@ -168,7 +168,7 @@ describe 'RubyBitly' do
           Bitly.expand('http://bit.ly/bcvNe5')
         end
 
-        expect(response.success).to eq(true)
+        expect(response.success?).to eq(true)
         expect(response.long_url).to eq('http://google.com')
         expect(response.short_url).to eq('http://bit.ly/bcvNe5')
         expect(response.user_hash).to eq('bcvNe5')
@@ -179,7 +179,7 @@ describe 'RubyBitly' do
           Bitly.expand({ :short_url => 'http://bit.ly/bcvNe5' })
         end
 
-        expect(response.success).to eq(true)
+        expect(response.success?).to eq(true)
         expect(response.long_url).to eq('http://google.com')
         expect(response.short_url).to eq('http://bit.ly/bcvNe5')
         expect(response.user_hash).to eq('bcvNe5')
@@ -199,7 +199,7 @@ describe 'RubyBitly' do
           Bitly.get_clicks('http://bit.ly/xlii42', login, api_key)
         end
 
-        expect(bitly.success).to eq(true)
+        expect(bitly.success?).to eq(true)
         expect(bitly.global_clicks).to be_an Integer
         expect(bitly.user_clicks).to be_an Integer
         expect(bitly.short_url).to eq('http://bit.ly/xlii42')
@@ -212,7 +212,7 @@ describe 'RubyBitly' do
           Bitly.get_clicks(:short_url => 'http://bit.ly/xlii42', :login => login, :api_key => api_key)
         end
 
-        expect(bitly.success).to eq(true)
+        expect(bitly.success?).to eq(true)
         expect(bitly.global_clicks).to be_an Integer
         expect(bitly.user_clicks).to be_an Integer
         expect(bitly.short_url).to eq('http://bit.ly/xlii42')
@@ -231,7 +231,7 @@ describe 'RubyBitly' do
           Bitly.get_clicks('http://bit.ly/xlii42')
         end
 
-        expect(bitly.success).to eq(true)
+        expect(bitly.success?).to eq(true)
         expect(bitly.global_clicks).to be_an Integer
         expect(bitly.user_clicks).to be_an Integer
         expect(bitly.short_url).to eq('http://bit.ly/xlii42')
@@ -244,7 +244,7 @@ describe 'RubyBitly' do
           Bitly.get_clicks(:short_url => 'http://bit.ly/xlii42')
         end
 
-        expect(bitly.success).to eq(true)
+        expect(bitly.success?).to eq(true)
         expect(bitly.global_clicks).to be_an Integer
         expect(bitly.user_clicks).to be_an Integer
         expect(bitly.short_url).to eq('http://bit.ly/xlii42')
@@ -285,7 +285,7 @@ describe 'RubyBitly' do
         Bitly.get_clicks(:short_url => 'http://bit.ly/xlii42', :login => login, :api_key => api_key)
       end
 
-      expect(bitly.success).to eq(true)
+      expect(bitly.success?).to eq(true)
     end
   end
 end

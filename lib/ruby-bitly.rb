@@ -52,12 +52,13 @@ class Bitly < OpenStruct
       options.select! { |k,_v| [:longURL, :domain, :login, :apiKey].include?(k) }
 
       response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:shorten], options)
-      response.delete("data") if response["data"].empty?
+      response['data'] = {} if response['data'].empty?
 
-      bitly = new response["data"]
-      bitly.hash_path = response["data"]["hash"] if response["status_code"] == 200
-      bitly.success = response["status_code"] == 200
-      bitly.error = response['status_txt'] unless bitly.success
+      bitly = new response['data'].slice('url', 'global_hash', 'long_url')
+      bitly.send('success?=', response['status_code'].to_i == 200)
+      bitly.send('new_hash?=', response['data']['new_hash'].to_i == 1)
+      bitly.hash_path = response['data']['hash'] if bitly.success?
+      bitly.error = response['status_txt'] unless bitly.success?
 
       bitly
     end
@@ -82,7 +83,7 @@ class Bitly < OpenStruct
       response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:expand], options)
 
       bitly = new(response["data"]["expand"].first)
-      bitly.success = response["status_code"] == 200
+      bitly.send('success?=', response["status_code"] == 200)
       bitly.long_url = bitly.error if bitly.error
 
       bitly
@@ -109,7 +110,7 @@ class Bitly < OpenStruct
       response = JSON.parse RestClient.get("#{rest_api_url}#{ACTION_PATH[:clicks]}", params: options)
 
       bitly = new(response["data"]["clicks"].first)
-      bitly.success = response["status_code"] == 200
+      bitly.send('success?=', response["status_code"] == 200)
 
       bitly
     end
