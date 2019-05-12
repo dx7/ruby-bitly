@@ -38,8 +38,8 @@ describe 'RubyBitly' do
         expect(response.error).to eq(nil)
         expect(response.new_hash?).to eq(false)
         expect(response.global_hash).not_to be_empty
-        expect(response.hash_path.length).not_to eq(0)
-        expect(response.url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
+        expect(response.user_hash.length).not_to eq(0)
+        expect(response.short_url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
       end
 
       it 'shorten long url using new API' do
@@ -51,8 +51,8 @@ describe 'RubyBitly' do
         expect(response.error).to eq(nil)
         expect(response.new_hash?).to eq(false)
         expect(response.global_hash).not_to be_empty
-        expect(response.hash_path.length).not_to eq(0)
-        expect(response.url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
+        expect(response.user_hash.length).not_to eq(0)
+        expect(response.short_url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
       end
 
       it 'shorten long url with a preferred domain' do
@@ -65,8 +65,8 @@ describe 'RubyBitly' do
         expect(response.error).to eq(nil)
         expect(response.new_hash?).to eq(false)
         expect(response.global_hash).not_to be_empty
-        expect(response.hash_path.length).not_to eq(0)
-        expect(response.url).to match(/^http:\/\/j\.mp\/[A-Za-z0-9]*/)
+        expect(response.user_hash.length).not_to eq(0)
+        expect(response.short_url).to match(/^http:\/\/j\.mp\/[A-Za-z0-9]*/)
       end
 
       it 'shorten bitly url' do
@@ -101,8 +101,8 @@ describe 'RubyBitly' do
         expect(response.success?).to eq(true)
         expect(response.new_hash?).to eq(false)
         expect(response.global_hash).not_to be_empty
-        expect(response.hash_path.length).not_to eq(0)
-        expect(response.url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
+        expect(response.user_hash.length).not_to eq(0)
+        expect(response.short_url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
       end
 
       it 'shorten long url using global config' do
@@ -113,8 +113,8 @@ describe 'RubyBitly' do
         expect(response.success?).to eq(true)
         expect(response.new_hash?).to eq(false)
         expect(response.global_hash).not_to be_empty
-        expect(response.hash_path.length).not_to eq(0)
-        expect(response.url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
+        expect(response.user_hash.length).not_to eq(0)
+        expect(response.short_url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
       end
     end
   end

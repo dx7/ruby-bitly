@@ -54,11 +54,17 @@ class Bitly < OpenStruct
       response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:shorten], options)
       response['data'] = {} if response['data'].empty?
 
-      bitly = new response['data'].slice('url', 'global_hash', 'long_url')
-      bitly.send('success?=', response['status_code'].to_i == 200)
-      bitly.send('new_hash?=', response['data']['new_hash'].to_i == 1)
-      bitly.hash_path = response['data']['hash'] if bitly.success?
-      bitly.error = response['status_txt'] unless bitly.success?
+      bitly = new({ 'success?' => response['status_code'].to_i == 200 })
+
+      if bitly.success?
+        bitly.send('new_hash?=', response['data']['new_hash'].to_i == 1)
+        bitly.short_url = response['data']['url']
+        bitly.long_url = response['data']['long_url']
+        bitly.global_hash = response['data']['global_hash']
+        bitly.user_hash = response['data']['hash']
+      else
+        bitly.error = response['status_txt'] unless bitly.success?
+      end
 
       bitly
     end

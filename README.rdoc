@@ -44,11 +44,11 @@
   bitly = Bitly.shorten(url: "https://dx7.github.io/", login: "login-here", api_key: "key-here", domain: "my.do")
 
   # result
-  bitly.url         #=> "http://bit.ly/2dAjjfo"
+  bitly.short_url   #=> "http://bit.ly/2dAjjfo"
   bitly.long_url    #=> "https://dx7.github.io/"
   bitly.new_hash?   #=> true
   bitly.global_hash #=> "2dAkyet"
-  bitly.hash_path   #=> "2dAjjfo"
+  bitly.user_hash   #=> "2dAjjfo"
   bitly.success?    #=> true
 
 
@@ -87,12 +87,12 @@
   bitly = Bitly.get_clicks(url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "key-here")
 
   # result
-  bitly.short_url     => "http://bit.ly/2dAjjfo"
-  bitly.user_hash     => "2dAjjfo"
-  bitly.global_hash   => "2dAkyet"
-  bitly.user_clicks   => 0
-  bitly.global_clicks => 1
-  bitly.success?      => true
+  bitly.short_url      #=> "http://bit.ly/2dAjjfo"
+  bitly.user_hash      #=> "2dAjjfo"
+  bitly.global_hash    #=> "2dAkyet"
+  bitly.user_clicks    #=> 0
+  bitly.global_clicks  #=> 1
+  bitly.success?       #=> true
 
 
 == Error handling
