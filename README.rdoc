@@ -124,7 +124,7 @@
 
   Or you can create the file ~/.bitly (YAML format) with that content:
     login: <login-here>
-    api-key: <api-key-here>
+    api_key: <api-key-here>
 
 
 == Author
