@@ -1,7 +1,11 @@
-# 0.3.0
+# 1.0.0.rc1 - BREAKING CHANGES!
 
-- Add attributes success and error to a better error handling
-- Remove old attributes status_code and status_txt
+- Update README with all updates and breaking changes. Check it out!
+- Remove deprecated API
+- Rename method `hash_path` to `user_hash`
+- Rename boolean method `new_hash` to `new_hash?`
+- Add attributes `success?` and `error?` to better error handling
+- Remove old attributes `status_code` and `status_txt`
 
 # 0.2.1
 
