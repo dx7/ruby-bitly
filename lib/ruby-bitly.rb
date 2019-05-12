@@ -14,8 +14,6 @@ class Bitly < OpenStruct
   class << self
     attr_accessor :login, :api_key
     attr_writer :use_ssl
-    alias :key :api_key
-    alias :key= :api_key=
 
     def use_ssl
       instance_variable_defined?(:@use_ssl) ? @use_ssl : true
@@ -33,22 +31,16 @@ class Bitly < OpenStruct
       yield self
     end
 
-    # Old API:
-    #
-    # shorten(long_url, login = self.login, api_key = self.api_key)
-    #
-    # New API:
-    #
     # shorten(options)
     #
-    # Options can have:
+    # Options are:
     #
-    # :long_url
-    # :login
-    # :api_key
-    # :domain
-    def shorten(long_url, login = self.login, api_key = self.api_key)
-      options = ensure_options(url: long_url, login: login, api_key: api_key)
+    # long_url
+    # login
+    # api_key
+    # domain
+    def shorten(options)
+      options = ensure_options(options)
       options.select! { |k,_v| [:longURL, :domain, :login, :apiKey].include?(k) }
 
       response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:shorten], options)
@@ -69,21 +61,15 @@ class Bitly < OpenStruct
       bitly
     end
 
-    # Old API:
-    #
-    # expand(short_url, login = self.login, api_key = self.api_key)
-    #
-    # New API:
-    #
     # expand(options)
     #
-    # Options can have:
+    # Options are:
     #
-    # :long_url
-    # :login
-    # :api_key
-    def expand(short_url, login = self.login, api_key = self.api_key)
-      options = ensure_options(url: short_url, login: login, api_key: api_key)
+    # short_url
+    # login
+    # api_key
+    def expand(options)
+      options = ensure_options(options)
       options.select! { |k,_v| [:shortURL, :login, :apiKey].include?(k) }
 
       response = JSON.parse RestClient.post(rest_api_url + ACTION_PATH[:expand], options)
@@ -95,21 +81,15 @@ class Bitly < OpenStruct
       bitly
     end
 
-    # Old API:
-    #
-    # get_clicks(short_url, login = self.login, api_key = self.api_key)
-    #
-    # New API:
-    #
     # get_clicks(options)
     #
-    # Options can have:
+    # Options are:
     #
-    # :long_url
-    # :login
-    # :api_key
-    def get_clicks(short_url, login = self.login, api_key = self.api_key)
-      options = ensure_options(url: short_url, login: login, api_key: api_key)
+    # short_url
+    # login
+    # api_key
+    def get_clicks(options)
+      options = ensure_options(options)
       options.select! { |k,_v| [:shortURL, :login, :apiKey].include?(k) }
       options[:shortUrl] = options.delete(:shortURL)
 
@@ -124,19 +104,17 @@ class Bitly < OpenStruct
     private
 
       def ensure_options(options)
-        options = options[:url] if options[:url].is_a?(Hash)
-
         response = {}
-        response[:shortURL] = options[:short_url] || options[:url]
-        response[:longURL] = options[:long_url] || options[:url]
+        response[:shortURL] = options[:short_url]
+        response[:longURL] = options[:long_url]
+        response[:domain] = options[:domain]
         response[:login] = options[:login] || self.login
         response[:apiKey] = options[:api_key] || self.api_key
-        response[:domain] = options[:domain]
         response.reject { |_k,v| v.nil? }
       end
 
       def rest_api_url
-        use_ssl ? REST_API_URL_SSL : REST_API_URL
+        { true => REST_API_URL_SSL, false => REST_API_URL }[use_ssl]
       end
   end
 end

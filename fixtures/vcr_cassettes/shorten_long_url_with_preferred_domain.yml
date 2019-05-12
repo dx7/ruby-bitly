@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api-ssl.bitly.com/v3/shorten
     body:
       encoding: UTF-8
-      string: longURL=http%3A%2F%2Fgoogle.com&login=my-login&apiKey=my-api-key&domain=j.mp
+      string: longURL=http%3A%2F%2Fgoogle.com&domain=j.mp&login=my-login&apiKey=my-api-key
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -41,6 +41,6 @@ http_interactions:
         "new_hash": 0 } }
 
 '
-    http_version: 
+    http_version:
   recorded_at: Sat, 01 Oct 2016 19:29:25 GMT
 recorded_with: VCR 3.0.3

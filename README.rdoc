@@ -13,8 +13,7 @@
 
   Bitly.config do |c|
     c.login   = 'login-here'
-    c.api_key = 'key-here'
-    c.key     = 'key-here' # deprecated: use api_key instead
+    c.api_key = 'api-key-here'
     c.use_ssl = false # read more below
     c.proxy   = 'http://localhost:8888' # read more below
   end
@@ -22,8 +21,7 @@
   Or set them individualy:
 
   Bitly.login   = 'login-here'
-  Bitly.api_key = 'key-here'
-  Bitly.key     = 'key-here' # deprecated: use api_key instead
+  Bitly.api_key = 'api-key-here'
   Bitly.use_ssl = false # read more below
   Bitly.proxy   = 'http://localhost:8888' # read more below
 
@@ -31,17 +29,10 @@
 
 
 == Shorten
-  # old way
-  bitly = Bitly.shorten("https://dx7.github.io/")
+  bitly = Bitly.shorten(long_url: "https://dx7.github.io/")
 
-  # old way setting local configuration
-  bitly = Bitly.shorten("https://dx7.github.io/", "login-here", "key-here")
-
-  # new way
-  bitly = Bitly.shorten(url: "https://dx7.github.io/")
-
-  # new way setting local configuration
-  bitly = Bitly.shorten(url: "https://dx7.github.io/", login: "login-here", api_key: "key-here", domain: "my.do")
+  # setting credentials
+  bitly = Bitly.shorten(long_url: "https://dx7.github.io/", domain: "my.do", login: "login-here", api_key: "api-key-here")
 
   # result
   bitly.short_url   #=> "http://bit.ly/2dAjjfo"
@@ -53,17 +44,10 @@
 
 
 == Expand
-  # old way
-  bitly = Bitly.expand("http://bit.ly/2dAjjfo")
+  bitly = Bitly.expand(short_url: "http://bit.ly/2dAjjfo")
 
-  # old way setting local configuration
-  bitly = Bitly.expand("http://bit.ly/2dAjjfo", "login-here", "key-here")
-
-  # new way
-  bitly = Bitly.expand(url: "http://bit.ly/2dAjjfo")
-
-  # new way setting local configuration
-  bitly = Bitly.expand(url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "key-here")
+  # setting credentials
+  bitly = Bitly.expand(short_url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "api-key-here")
 
   # result
   bitly.short_url   #=> "http://bit.ly/2dAjjfo"
@@ -74,17 +58,10 @@
 
 
 == Get Clicks
-  # old way
-  bitly = Bitly.get_clicks("http://bit.ly/2dAjjfo")
+  bitly = Bitly.get_clicks(short_url: "http://bit.ly/2dAjjfo")
 
-  # old way setting local configuration
-  bitly = Bitly.get_clicks("http://bit.ly/2dAjjfo", "login-here", "key-here")
-
-  # new way
-  bitly = Bitly.get_clicks(url: "http://bit.ly/2dAjjfo")
-
-  # new way setting local configuration
-  bitly = Bitly.get_clicks(url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "key-here")
+  # setting credentials
+  bitly = Bitly.get_clicks(short_url: "http://bit.ly/2dAjjfo", login: "login-here", api_key: "api-key-here")
 
   # result
   bitly.short_url      #=> "http://bit.ly/2dAjjfo"
@@ -119,7 +96,7 @@
 == Command Line
   Usage: bitly [options] URL
     -l, --login LOGIN                You need a free Bitly login and api key. Sign up here: http://bit.ly/a/sign_up.
-    -k, --key KEY                    You can find your api key here: http://bit.ly/a/your_api_key.
+    -k, --api-key KEY                You can find your api key here: http://bit.ly/a/your_api_key.
 
     -d, --domain DOMAIN              The short domain to use: either bit.ly, j.mp, bitly.com or a custom short domain.
                                      This option will override the default short domain selected in your Bitly account settings.
@@ -143,11 +120,11 @@
   bit.ly API requires authentication credentials.
 
   Using commmand line you can supply credentials as parameters. For example:
-    bitly -l <login-here> -k <key-here> -s http://dx7.github.io
+    bitly -l <login-here> -k <api-key-here> -s http://dx7.github.io
 
   Or you can create the file ~/.bitly (YAML format) with that content:
     login: <login-here>
-    key: <key-here>
+    api-key: <api-key-here>
 
 
 == Author

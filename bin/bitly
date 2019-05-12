@@ -29,7 +29,7 @@ class App
     def load_account_data
       account_data = YAML.load(File.read(ACCOUNT_FILE_PATH)) rescue {}
       options.login = account_data['login']
-      options.key = account_data['key']
+      options.api_key = account_data['api_key']
     rescue
     end
 
@@ -41,8 +41,8 @@ class App
           options.login = login
         end
 
-        opts.on('-k', '--key KEY', 'You can find your api key here: http://bit.ly/a/your_api_key.', ' ') do |key|
-          options.key = key
+        opts.on('-k', '--api-key KEY', 'You can find your api key here: http://bit.ly/a/your_api_key.', ' ') do |api_key|
+          options.api_key = api_key
         end
 
         opts.on('-d', '--domain DOMAIN',
@@ -68,13 +68,13 @@ class App
     def process_command
       case options.command
       when :shorten
-        Bitly.shorten(url: arguments.first, login: options.login, api_key: options.key, domain: options.domain).url
+        Bitly.shorten(long_url: arguments.first, login: options.login, api_key: options.api_key, domain: options.domain).short_url
       when :expand
-        Bitly.expand(url: arguments.first, login: options.login, api_key: options.key).long_url
+        Bitly.expand(short_url: arguments.first, login: options.login, api_key: options.api_key).long_url
       when :user_clicks
-        Bitly.get_clicks(url: arguments.first, login: options.login, api_key: options.key).user_clicks.to_s
+        Bitly.get_clicks(short_url: arguments.first, login: options.login, api_key: options.api_key).user_clicks.to_s
       when :global_clicks
-        Bitly.get_clicks(url: arguments.first, login: options.login, api_key: options.key).global_clicks.to_s
+        Bitly.get_clicks(short_url: arguments.first, login: options.login, api_key: options.api_key).global_clicks.to_s
       else
         "No command given"
       end

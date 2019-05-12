@@ -29,19 +29,6 @@ describe 'RubyBitly' do
         Bitly.config { |c| c.login = 'any login'; c.api_key = 'any api_key' }
       end
 
-      it 'shorten long url using old API' do
-        response = VCR.use_cassette('shorten_long_url') do
-          Bitly.shorten('http://google.com', login, api_key)
-        end
-
-        expect(response.success?).to eq(true)
-        expect(response.error).to eq(nil)
-        expect(response.new_hash?).to eq(false)
-        expect(response.global_hash).not_to be_empty
-        expect(response.user_hash.length).not_to eq(0)
-        expect(response.short_url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
-      end
-
       it 'shorten long url using new API' do
         response = VCR.use_cassette('shorten_long_url') do
           Bitly.shorten(:long_url => 'http://google.com', :login => login, :api_key => api_key)
@@ -71,7 +58,7 @@ describe 'RubyBitly' do
 
       it 'shorten bitly url' do
         response = VCR.use_cassette('shorten_bitly_url') do
-          Bitly.shorten('http://bit.ly/bcvNe5', login, api_key)
+          Bitly.shorten(long_url: 'http://bit.ly/bcvNe5', login: login, api_key: api_key)
         end
 
         expect(response.success?).to eq(false)
@@ -80,7 +67,7 @@ describe 'RubyBitly' do
 
       it 'uses invalid login' do
         response = VCR.use_cassette('shorten_using_invalid_login') do
-          Bitly.shorten('http://bit.ly/bcvNe5', login, api_key)
+          Bitly.shorten(long_url: 'http://bit.ly/bcvNe5', login: login, api_key: api_key)
         end
 
         expect(response.success?).to eq(false)
@@ -91,18 +78,6 @@ describe 'RubyBitly' do
     context 'using global config' do
       before do
         Bitly.config { |c| c.login = login; c.api_key = api_key }
-      end
-
-      it 'shorten long url using old API' do
-        response = VCR.use_cassette('shorten_long_url') do
-          Bitly.shorten('http://google.com')
-        end
-
-        expect(response.success?).to eq(true)
-        expect(response.new_hash?).to eq(false)
-        expect(response.global_hash).not_to be_empty
-        expect(response.user_hash.length).not_to eq(0)
-        expect(response.short_url).to match(/^http:\/\/bit\.ly\/[A-Za-z0-9]*/)
       end
 
       it 'shorten long url using global config' do
@@ -127,7 +102,7 @@ describe 'RubyBitly' do
 
       it 'expand a short url to its long url old API' do
         response = VCR.use_cassette('expand_a_short_url_to_it_long_url') do
-          Bitly.expand('http://bit.ly/bcvNe5', login, api_key)
+          Bitly.expand(short_url: 'http://bit.ly/bcvNe5', login: login, api_key: api_key)
         end
 
         expect(response.success?).to eq(true)
@@ -149,7 +124,7 @@ describe 'RubyBitly' do
 
       it 'expand a long url should result an error' do
         response = VCR.use_cassette('expand_a_long_url_should_result_an_error') do
-          Bitly.expand('http://google.com', login, api_key)
+          Bitly.expand(short_url: 'http://google.com', login: login, api_key: api_key)
         end
 
         expect(response.success?).to eq(true)
@@ -161,17 +136,6 @@ describe 'RubyBitly' do
     context 'using global config' do
       before do
         Bitly.config { |c| c.login = login; c.api_key = api_key }
-      end
-
-      it 'expand a short url to its long url old API' do
-        response = VCR.use_cassette('expand_a_short_url_to_it_long_url') do
-          Bitly.expand('http://bit.ly/bcvNe5')
-        end
-
-        expect(response.success?).to eq(true)
-        expect(response.long_url).to eq('http://google.com')
-        expect(response.short_url).to eq('http://bit.ly/bcvNe5')
-        expect(response.user_hash).to eq('bcvNe5')
       end
 
       it 'expand a short url to its long url using global config' do
@@ -194,19 +158,6 @@ describe 'RubyBitly' do
         Bitly.config { |c| c.login = 'any login'; c.api_key = 'any api_key' }
       end
 
-      it 'get clicks by short_url using old API' do
-        bitly = VCR.use_cassette('get_clicks_by_short_url') do
-          Bitly.get_clicks('http://bit.ly/xlii42', login, api_key)
-        end
-
-        expect(bitly.success?).to eq(true)
-        expect(bitly.global_clicks).to be_an Integer
-        expect(bitly.user_clicks).to be_an Integer
-        expect(bitly.short_url).to eq('http://bit.ly/xlii42')
-        expect(bitly.global_hash).to eq('cunZEP')
-        expect(bitly.user_hash).to eq('cT1Izu')
-      end
-
       it 'get clicks by short_url using options API' do
         bitly = VCR.use_cassette('get_clicks_by_short_url') do
           Bitly.get_clicks(:short_url => 'http://bit.ly/xlii42', :login => login, :api_key => api_key)
@@ -224,19 +175,6 @@ describe 'RubyBitly' do
     context 'using global config' do
       before do
         Bitly.config { |c| c.login = login; c.api_key = api_key }
-      end
-
-      it 'get clicks by short_url using old API' do
-        bitly = VCR.use_cassette('get_clicks_by_short_url') do
-          Bitly.get_clicks('http://bit.ly/xlii42')
-        end
-
-        expect(bitly.success?).to eq(true)
-        expect(bitly.global_clicks).to be_an Integer
-        expect(bitly.user_clicks).to be_an Integer
-        expect(bitly.short_url).to eq('http://bit.ly/xlii42')
-        expect(bitly.global_hash).to eq('cunZEP')
-        expect(bitly.user_hash).to eq('cT1Izu')
       end
 
       it 'get clicks by short_url using global config' do
