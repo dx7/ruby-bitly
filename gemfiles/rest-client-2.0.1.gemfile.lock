@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    ruby-bitly (0.2.1)
+    ruby-bitly (3.0.0.rc1)
       rest-client (~> 2.0)
 
 GEM
