@@ -117,7 +117,7 @@
 
 
 == Authentication
-  bit.ly API requires authentication credentials. You can get it on {bit.ly website}[app.bitly.com/Ba48fIHfOg5/bitlinks/2Q1GQcD?actions=accountMain&actions=settings&actions=advancedSettings&actions=apiSupport].
+  bit.ly API requires authentication credentials. You can get it on bit.ly[https://app.bitly.com/Ba48fIHfOg5/bitlinks/2Q1GQcD?actions=accountMain&actions=settings&actions=advancedSettings&actions=apiSupport].
 
   Using commmand line you can supply credentials as parameters. For example:
     bitly -l <login-here> -k <api-key-here> -s http://dx7.github.io
