@@ -5,7 +5,7 @@
 
 
 == Configuration
-  You need to load the gem:
+  Loading the gem:
 
   require 'ruby-bitly'
 
@@ -28,10 +28,10 @@
   Or set them on methods if you prefer (see it below).
 
 
-== Shorten
+== Shortening a long URL
   bitly = Bitly.shorten(long_url: "https://dx7.github.io/")
 
-  # setting credentials
+  # setting credentials or a custom domain
   bitly = Bitly.shorten(long_url: "https://dx7.github.io/", domain: "my.do", login: "login-here", api_key: "api-key-here")
 
   # result
@@ -43,7 +43,7 @@
   bitly.success?    #=> true
 
 
-== Expand
+== Expanding a Bitly URL
   bitly = Bitly.expand(short_url: "http://bit.ly/2dAjjfo")
 
   # setting credentials
@@ -57,7 +57,7 @@
   bitly.success?    #=> true
 
 
-== Get Clicks
+== Getting Clicks from a Bitly URL
   bitly = Bitly.get_clicks(short_url: "http://bit.ly/2dAjjfo")
 
   # setting credentials
@@ -109,7 +109,7 @@
     -h, --help                       Print this help.
     -v, --version                    Print version.
 
-  Basic examples:
+  Basic examples for command line:
     bitly -s http://dx7.github.io
     bitly -e http://bit.ly/2dAjjfo
     bitly --user-clicks http://bit.ly/2dAjjfo
@@ -117,12 +117,12 @@
 
 
 == Authentication
-  bit.ly API requires authentication credentials.
+  bit.ly API requires authentication credentials. You can get it on {bit.ly website}[https://app.bitly.com/Ba48fIHfOg5/bitlinks/2Q1GQcD?actions=accountMain&actions=settings&actions=advancedSettings&actions=apiSupport].
 
   Using commmand line you can supply credentials as parameters. For example:
     bitly -l <login-here> -k <api-key-here> -s http://dx7.github.io
 
-  Or you can create the file ~/.bitly (YAML format) with that content:
+  Or you can create the file ~/.bitly with that content:
     login: <login-here>
     api_key: <api-key-here>
 
